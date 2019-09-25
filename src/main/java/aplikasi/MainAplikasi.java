@@ -5,22 +5,25 @@
  */
 package aplikasi;
 
-
-
+import view.MainMenu;
 import java.util.Locale;
 import javax.swing.SwingUtilities;
-import view.MainMenu;
 
 /**
  *
- * @author soraya
+ * @author dhiskar
  */
 public class MainAplikasi {
-   public static void main(String[] args) {
+
+    public static void main(String[] args) {
         Locale.setDefault(new Locale("in", "ID"));
-            MainMenu mainMenu = new MainMenu();
-            mainMenu.setTitle("TRIAL PRODUKSI-Aplikasi");
-            mainMenu.setLocationRelativeTo(null);
-            mainMenu.setVisible(true);
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+            MainMenu aplikasi = new MainMenu();
+            aplikasi.setTitle("Alikasi Utama");
+            aplikasi.setLocationRelativeTo(null);
+            aplikasi.setVisible(true);
+            }
+        });
     }
 }
