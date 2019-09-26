@@ -7,6 +7,7 @@ package view;
 
 import aplikasi.entity.Dies;
 import aplikasi.entity.Jabatan;
+import aplikasi.entity.Kepala;
 import aplikasi.entity.Mesin;
 import aplikasi.entity.Operator;
 import aplikasi.entity.Trial;
@@ -66,7 +67,7 @@ public class ServiceTrial implements RepoTrial{
 
     @Override
     public List<Trial> findAll() throws SQLException {
-        String sql = "SELECT * FROM tb_trial";
+        String sql = "SELECT * FROM v_trial";
         List<Trial> list = new ArrayList<>();
 
         Connection connect = ds.getConnection();
@@ -75,30 +76,31 @@ public class ServiceTrial implements RepoTrial{
         while (rs.next()) {
             Trial a = new Trial();
             a.setId_trial(rs.getInt("id_trial"));
+            a.setTanggal(rs.getDate("tanggal"));
             a.setMulai(rs.getTime("mulai"));
             a.setSelesai(rs.getTime("selesai"));
             
-//            Dies d = new Dies();
-//            d.setId_dies(rs.getInt("id_dies"));
-//            d.setNama(rs.getString("nama"));
-//            d.setProses(rs.getString("proses"));
-//            d.setCustomer(rs.getString("customer"));
-//            a.setDies(d);
-//            
-//            Mesin m = new Mesin();
-//            m.setId_mesin(rs.getInt("id_mesin"));
-//            m.setNama(rs.getString("nama"));
-//            
-//            Jabatan j = new Jabatan();
-//            j.setId_jabatan(rs.getInt("id_jabatan"));
-//            
-//            Operator o =new Operator();
-//            o.setId_operator(rs.getInt("id_operator"));
-//            o.setNama(rs.getString("nama"));
-//            o.setAktif(rs.getBoolean("aktif"));
-//            o.setJabatan(j);
-//            a.setJabatan1(j);
-//            a.setJabatan2(j);
+            Dies d = new Dies();
+            d.setId_dies(rs.getInt("id_dies"));
+            d.setNama(rs.getString("nama_dies"));
+            d.setProses(rs.getString("proses_dies"));
+            d.setCustomer(rs.getString("customer_dies"));
+            a.setDies(d);
+            
+            Mesin m = new Mesin();
+            m.setId_mesin(rs.getInt("id_mesin"));
+            m.setNama(rs.getString("nama_mesin"));
+            a.setMesin(m);
+            
+            Operator o =new Operator();
+            o.setId_operator(rs.getInt("id_operator"));
+            o.setNama(rs.getString("nama_operator"));
+            a.setOperator(o);
+            
+            Kepala k =new Kepala();
+            k.setId_operator(rs.getInt("id_kepala"));
+            k.setNama(rs.getString("nama_kepala"));
+            a.setKepala(k);
 
             list.add(a);
         }
@@ -106,7 +108,6 @@ public class ServiceTrial implements RepoTrial{
         st.close();
         rs.close();
         connect.close();
-
         return list;
     }
 

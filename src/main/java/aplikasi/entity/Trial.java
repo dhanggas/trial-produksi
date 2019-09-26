@@ -5,6 +5,7 @@
  */
 package aplikasi.entity;
 
+import java.sql.Date;
 import java.sql.Time;
 
 /**
@@ -13,10 +14,11 @@ import java.sql.Time;
  */
 public class Trial {
     private Integer id_trial;
+    private Date tanggal;
     private Dies dies;
     private Mesin mesin;
-    private Jabatan jabatan1;
-    private Jabatan jabatan2;
+    private Kepala kepala;
+    private Operator operator;
     private Time mulai;
     private Time selesai;
 
@@ -26,6 +28,14 @@ public class Trial {
 
     public void setId_trial(Integer id_trial) {
         this.id_trial = id_trial;
+    }
+
+    public Date getTanggal() {
+        return tanggal;
+    }
+
+    public void setTanggal(Date tanggal) {
+        this.tanggal = tanggal;
     }
 
     public Dies getDies() {
@@ -44,20 +54,20 @@ public class Trial {
         this.mesin = mesin;
     }
 
-    public Jabatan getJabatan1() {
-        return jabatan1;
+    public Kepala getKepala() {
+        return kepala;
     }
 
-    public void setJabatan1(Jabatan jabatan1) {
-        this.jabatan1 = jabatan1;
+    public void setKepala(Kepala kepala) {
+        this.kepala = kepala;
     }
 
-    public Jabatan getJabatan2() {
-        return jabatan2;
+    public Operator getOperator() {
+        return operator;
     }
 
-    public void setJabatan2(Jabatan jabatan2) {
-        this.jabatan2 = jabatan2;
+    public void setOperator(Operator operator) {
+        this.operator = operator;
     }
 
     public Time getMulai() {

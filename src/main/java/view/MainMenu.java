@@ -430,7 +430,8 @@ public class MainMenu extends javax.swing.JFrame {
             tableController.clearData();
             this.daftarAset = repoTrial.findAll();
             for (Trial trial : daftarAset) {
-                Object[] row = {trial.getId_trial()};
+                Object[] row = {trial.getId_trial(),trial.getTanggal(), trial.getDies().getNama(), trial.getDies().getProses(),
+                trial.getMesin().getNama(),trial.getKepala().getNama(),trial.getOperator().getNama(), trial.getMulai(),trial.getSelesai()};
                 tableController.getModel().addRow(row);
             }
         } catch (SQLException ex) {
