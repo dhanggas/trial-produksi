@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package view;
+package services;
 
 import aplikasi.entity.Dies;
 import aplikasi.entity.Jabatan;
@@ -18,6 +18,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import javax.sql.DataSource;
+import repository.RepoTrial;
 
 /**
  *
