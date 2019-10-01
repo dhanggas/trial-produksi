@@ -6,17 +6,18 @@
 
 package view.mesin;
 
+import aplikasi.config.KoneksiDB;
 import aplikasi.controller.TableViewController;
 import aplikasi.entity.Mesin;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import repository.RepoMesin;
 import services.ServiceMesin;
-import aplikasi.config.KoneksiDB;
 import view.MainMenu;
 
 /**
@@ -48,7 +49,7 @@ public class DetailMesinView extends javax.swing.JDialog {
                 Object[] row = {m.getId_mesin(), m.getNama()};
                 tableController.getModel().addRow(row);
             }
-//            tableController.setContentTableAlignment( Arrays.asList(0, 1, 2));
+            tableController.setContentTableAlignment( Arrays.asList(0, 1));
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Tidak dapat mendapatkan data mesin", getTitle(), JOptionPane.ERROR_MESSAGE);
             Logger.getLogger(DetailMesinView.class.getName()).log(Level.SEVERE, null, e);
@@ -63,48 +64,13 @@ public class DetailMesinView extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jToolBar1 = new javax.swing.JToolBar();
-        btnPilih = new javax.swing.JButton();
-        btnSelesai = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tableView = new javax.swing.JTable();
         txtCari = new javax.swing.JTextField();
+        txtReset = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-
-        jToolBar1.setRollover(true);
-        jToolBar1.setPreferredSize(new java.awt.Dimension(100, 35));
-
-        btnPilih.setText("Pilih");
-        btnPilih.setFocusable(false);
-        btnPilih.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        btnPilih.setMaximumSize(new java.awt.Dimension(120, 35));
-        btnPilih.setMinimumSize(new java.awt.Dimension(120, 35));
-        btnPilih.setPreferredSize(new java.awt.Dimension(120, 35));
-        btnPilih.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        btnPilih.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnPilihActionPerformed(evt);
-            }
-        });
-        jToolBar1.add(btnPilih);
-
-        btnSelesai.setText("Selesai");
-        btnSelesai.setFocusable(false);
-        btnSelesai.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        btnSelesai.setMaximumSize(new java.awt.Dimension(120, 35));
-        btnSelesai.setMinimumSize(new java.awt.Dimension(120, 35));
-        btnSelesai.setPreferredSize(new java.awt.Dimension(120, 35));
-        btnSelesai.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        btnSelesai.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSelesaiActionPerformed(evt);
-            }
-        });
-        jToolBar1.add(btnSelesai);
-
-        getContentPane().add(jToolBar1, java.awt.BorderLayout.PAGE_END);
 
         tableView.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -148,46 +114,46 @@ public class DetailMesinView extends javax.swing.JDialog {
             }
         });
 
+        txtReset.setText("Reset");
+        txtReset.setFocusable(false);
+        txtReset.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        txtReset.setMaximumSize(new java.awt.Dimension(120, 35));
+        txtReset.setMinimumSize(new java.awt.Dimension(120, 35));
+        txtReset.setPreferredSize(new java.awt.Dimension(120, 35));
+        txtReset.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        txtReset.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtResetActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 408, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(txtCari, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addContainerGap()
+                .addComponent(txtCari, javax.swing.GroupLayout.PREFERRED_SIZE, 281, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtReset, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addComponent(txtCari, javax.swing.GroupLayout.DEFAULT_SIZE, 33, Short.MAX_VALUE)
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(txtReset, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(txtCari))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 452, Short.MAX_VALUE))
         );
 
         getContentPane().add(jPanel1, java.awt.BorderLayout.CENTER);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void btnPilihActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPilihActionPerformed
-//        if (tableController.isSelected()) {
-//            Aset aset = daftarAset.get(tableController.getRowSelected());
-//            PenambahanDetail pd = new PenambahanDetail();
-//            pd.setAset(aset);
-//            pd.setJumlah((Integer) txtJumlah.getValue());
-//            pd.setPenambahan(penambahan);
-//
-//            penambahanController.tambahAsetBelanjaan(pd);
-//            //            this.dispose();
-//        } else {
-//            JOptionPane.showMessageDialog(this, "Data barang belum dipilih", getTitle(), JOptionPane.WARNING_MESSAGE);
-//        }
-    }//GEN-LAST:event_btnPilihActionPerformed
-
-    private void btnSelesaiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSelesaiActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnSelesaiActionPerformed
 
     private void txtCariKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCariKeyReleased
         // TODO add your handling code here:
@@ -208,6 +174,11 @@ public class DetailMesinView extends javax.swing.JDialog {
             this.dispose();
         }
     }//GEN-LAST:event_tableViewMouseClicked
+
+    private void txtResetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtResetActionPerformed
+        txtCari.setText("");
+        txtCari.requestFocus();
+    }//GEN-LAST:event_txtResetActionPerformed
     
     public void refreshDataTablesByName() {
         try {
@@ -223,12 +194,10 @@ public class DetailMesinView extends javax.swing.JDialog {
 //        tableController.setContentTableAlignment(Arrays.asList(0, 2, 3, 4, 5));
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnPilih;
-    private javax.swing.JButton btnSelesai;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JToolBar jToolBar1;
     private javax.swing.JTable tableView;
     private javax.swing.JTextField txtCari;
+    private javax.swing.JButton txtReset;
     // End of variables declaration//GEN-END:variables
 }

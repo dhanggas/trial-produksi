@@ -31,7 +31,7 @@ public class TableViewController {
         this.table = table;
         this.table.getSelectionModel().setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         this.model = (DefaultTableModel) table.getModel();
-        this.table.setRowHeight(20);
+        this.table.setRowHeight(25);
         table.setRowSorter(new TableRowSorter(table.getModel()) {
             @Override
             public boolean isSortable(int column) {

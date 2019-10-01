@@ -6,7 +6,6 @@
 package services;
 
 import aplikasi.entity.Dies;
-import aplikasi.entity.Jabatan;
 import aplikasi.entity.Kepala;
 import aplikasi.entity.Mesin;
 import aplikasi.entity.Operator;
@@ -99,7 +98,7 @@ public class ServiceTrial implements RepoTrial{
             a.setOperator(o);
             
             Kepala k =new Kepala();
-            k.setId_operator(rs.getInt("id_kepala"));
+            k.setId_kepala(rs.getInt("id_kepala"));
             k.setNama(rs.getString("nama_kepala"));
             a.setKepala(k);
 

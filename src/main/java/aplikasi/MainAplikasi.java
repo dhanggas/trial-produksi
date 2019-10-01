@@ -20,7 +20,7 @@ public class MainAplikasi {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
             MainMenu aplikasi = new MainMenu();
-            aplikasi.setTitle("Alikasi Utama");
+            aplikasi.setTitle("TRIAL-PRODUKSI");
             aplikasi.setLocationRelativeTo(null);
             aplikasi.setVisible(true);
             }

@@ -10,17 +10,17 @@ package aplikasi.entity;
  * @author dhiskar
  */
 public class Kepala {
-    private Integer id_operator;
+    private Integer id_kepala;
     private String nama;
     private Jabatan jabatan;
     private Boolean aktif;
 
-    public Integer getId_operator() {
-        return id_operator;
+    public Integer getId_kepala() {
+        return id_kepala;
     }
 
-    public void setId_operator(Integer id_operator) {
-        this.id_operator = id_operator;
+    public void setId_kepala(Integer id_kepala) {
+        this.id_kepala = id_kepala;
     }
 
     public String getNama() {
