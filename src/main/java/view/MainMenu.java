@@ -6,13 +6,17 @@
 package view;
 
 import aplikasi.config.KoneksiDB;
+import aplikasi.config.ValueFormatter;
 import aplikasi.controller.TableViewController;
 import aplikasi.entity.Dies;
 import aplikasi.entity.Kepala;
 import aplikasi.entity.Mesin;
 import aplikasi.entity.Operator;
 import aplikasi.entity.Trial;
+import java.awt.Rectangle;
+import java.sql.Date;
 import java.sql.SQLException;
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -40,8 +44,10 @@ public class MainMenu extends javax.swing.JFrame {
     private final RepoOperator repoOperator;
 
     private Mesin mesin;
+    private Trial trial;
+    private Dies dies;
 
-    private List<Trial> daftarAset = new ArrayList<>();
+    private List<Trial> daftarTrial = new ArrayList<>();
     private List<Kepala> daftarKepala = new ArrayList<>();
     private List<Operator> daftarOperator = new ArrayList<>();
 
@@ -55,6 +61,8 @@ public class MainMenu extends javax.swing.JFrame {
         this.repoKepala = new ServiceKepala(KoneksiDB.getDataSource());
         this.repoOperator = new ServiceOperator(KoneksiDB.getDataSource());
         this.mesin = new Mesin();
+        this.trial = new Trial();
+        this.dies = new Dies();
         this.txtTanggal.setDate(new java.util.Date());
         refreshDataTables();
         refresDataKepala();
@@ -71,6 +79,20 @@ public class MainMenu extends javax.swing.JFrame {
         } catch (SQLException ex) {
             Logger.getLogger(MainMenu.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    private void clearFields() {
+        txtNoTrial.setText("190");
+        txtTanggal.setDate(new java.util.Date());
+        txtNamaDies.setText("");
+        txtProses.setText("");
+        txtCustomer.setText("");
+        txtNamaMesin.setText("");
+        refresDataKepala();
+        refresDataOperator();
+        txtMulai.setText("");
+        txtSelesai.setText("");
+        txtNoTrial.requestFocus();
     }
 
     private void refresDataOperator() {
@@ -119,6 +141,8 @@ public class MainMenu extends javax.swing.JFrame {
         txtOperator = new javax.swing.JComboBox();
         jLabel10 = new javax.swing.JLabel();
         txtMulai = new javax.swing.JTextField();
+        txtSelesai = new javax.swing.JTextField();
+        jLabel11 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tableView = new javax.swing.JTable();
@@ -260,6 +284,15 @@ public class MainMenu extends javax.swing.JFrame {
             }
         });
 
+        txtSelesai.setVerifyInputWhenFocusTarget(false);
+        txtSelesai.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtSelesaiActionPerformed(evt);
+            }
+        });
+
+        jLabel11.setText("Selesai");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -277,7 +310,8 @@ public class MainMenu extends javax.swing.JFrame {
                             .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jLabel9, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel10, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(jLabel10, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel11, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(txtNoTrial, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -296,7 +330,8 @@ public class MainMenu extends javax.swing.JFrame {
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(btnPilihDies, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtNamaDies, javax.swing.GroupLayout.PREFERRED_SIZE, 269, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                .addComponent(txtNamaDies, javax.swing.GroupLayout.PREFERRED_SIZE, 269, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(txtSelesai, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(34, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -339,7 +374,11 @@ public class MainMenu extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtMulai, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 177, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtSelesai, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 141, Short.MAX_VALUE)
                 .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -494,7 +533,7 @@ public class MainMenu extends javax.swing.JFrame {
     public void pilihMesin(Mesin mesin) {
 //        txtIdMesin.setText(mesin.getId_mesin().toString());
         setField(mesin);
-//      this.peminjaman = pinjam;
+        this.mesin = mesin;
     }
 
     private void mniAsetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniAsetActionPerformed
@@ -544,23 +583,34 @@ public class MainMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenu1ActionPerformed
 
     private void btnResetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnResetActionPerformed
-//        this.dispose();
+        clearFields();
     }//GEN-LAST:event_btnResetActionPerformed
 
     private void btnSimpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSimpanActionPerformed
-//        if (tableController.isSelected()) {
-//            Aset aset = daftarAset.get(tableController.getRowSelected());
-//            PeminjamanDetail pd = new PeminjamanDetail();
-//            pd.setAset(aset);
-//            pd.setQty((Integer) txtJumlah.getValue());
-//            pd.setPeminjaman(peminjaman);
-//            dataPeminjamanVIewController.tambahAsetBelanjaan(pd);
-//            //            this.dispose();
-//        } else {
-//            JOptionPane.showMessageDialog(this, "Data barang belum dipilih", getTitle(), JOptionPane.WARNING_MESSAGE);
-//        }
-    }//GEN-LAST:event_btnSimpanActionPerformed
+        try {
+            trial.setId_trial(Integer.valueOf(txtNoTrial.getText()));
+            trial.setTanggal(Date.valueOf(ValueFormatter.getDateSQL(txtTanggal.getDate())));
+            trial.setDies(dies);
+            trial.setMesin(mesin);
+            trial.setKepala(daftarKepala.get(txtKepala.getSelectedIndex()));
+            trial.setOperator(daftarOperator.get(txtOperator.getSelectedIndex()));
+            trial.setMulai(Time.valueOf(txtMulai.getText()));
+            trial.setSelesai(Time.valueOf(txtSelesai.getText()));
 
+//          trial.setDies();
+            repoTrial.save(trial);
+            refreshDataTables();
+            clearFields();
+            selectLastRow();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e, getTitle(), JOptionPane.ERROR_MESSAGE);
+            Logger.getLogger(MainMenu.class.getName()).log(Level.SEVERE, null, e);
+        }
+    }//GEN-LAST:event_btnSimpanActionPerformed
+    public void selectLastRow(){
+        tableView.setRowSelectionInterval(tableView.getRowCount()-1,tableView.getRowCount()-1);
+        tableView.scrollRectToVisible(new Rectangle(tableView.getCellRect(tableView.getRowCount()-1, 0, true)));
+    }
     private void btnFilterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFilterActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btnFilterActionPerformed
@@ -586,12 +636,16 @@ public class MainMenu extends javax.swing.JFrame {
     private void txtMulaiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtMulaiActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtMulaiActionPerformed
+
+    private void txtSelesaiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtSelesaiActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtSelesaiActionPerformed
     public void refreshDataTables() {
         try {
             tableController.clearData();
-            this.daftarAset = repoTrial.findAll();
-            for (Trial trial : daftarAset) {
-                Object[] row = {trial.getId_trial(), trial.getTanggal(), trial.getDies().getNama(), trial.getDies().getProses(),
+            this.daftarTrial = repoTrial.findAll();
+            for (Trial trial : daftarTrial) {
+                Object[] row = {trial.getId_trial(), ValueFormatter.getLocalDateShort(trial.getTanggal().toLocalDate()), trial.getDies().getNama(), trial.getDies().getProses(),
                     trial.getMesin().getNama(), trial.getKepala().getNama(), trial.getOperator().getNama(), trial.getMulai(), trial.getSelesai()};
                 tableController.getModel().addRow(row);
             }
@@ -609,6 +663,7 @@ public class MainMenu extends javax.swing.JFrame {
     private javax.swing.JButton btnSimpan;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -641,11 +696,13 @@ public class MainMenu extends javax.swing.JFrame {
     private javax.swing.JTextField txtNoTrial;
     private javax.swing.JComboBox txtOperator;
     private javax.swing.JTextField txtProses;
+    private javax.swing.JTextField txtSelesai;
     private com.toedter.calendar.JDateChooser txtTanggal;
     // End of variables declaration//GEN-END:variables
 
     private void setField(Mesin mesin) {
         txtNamaMesin.setText(mesin.getNama());
+
     }
 
     public void pilihDies(Dies dies) {
@@ -653,5 +710,6 @@ public class MainMenu extends javax.swing.JFrame {
         txtNamaDies.setText(dies.getNama());
         txtProses.setText(dies.getProses());
         txtCustomer.setText(dies.getCustomer());
+        this.dies = dies;
     }
 }

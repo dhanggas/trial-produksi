@@ -11,6 +11,7 @@ import aplikasi.entity.Mesin;
 import aplikasi.entity.Operator;
 import aplikasi.entity.Trial;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -56,8 +57,25 @@ public class ServiceTrial implements RepoTrial{
     }
 
     @Override
-    public Trial save(Trial value) throws SQLException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Trial save(Trial a) throws SQLException {
+                String sql = "INSERT INTO tb_trial (id_trial,tanggal,id_dies,id_mesin,id_kepala,id_operator,mulai,selesai)\n"
+                + "VALUES (?,?,?,?,?,?,?,?)";
+
+        Connection connect = ds.getConnection();
+        PreparedStatement ps = connect.prepareStatement(sql);
+        ps.setInt(1, a.getId_trial());
+        ps.setDate(2, a.getTanggal());
+        ps.setInt(3, a.getDies().getId_dies());
+        ps.setInt(4, a.getMesin().getId_mesin());
+        ps.setInt(5, a.getKepala().getId_kepala());
+        ps.setInt(6, a.getOperator().getId_operator());
+        ps.setTime(7, a.getMulai());
+        ps.setTime(8, a.getSelesai());
+        ps.executeUpdate();
+
+        ps.close();
+        connect.close();
+        return a;
     }
 
     @Override
