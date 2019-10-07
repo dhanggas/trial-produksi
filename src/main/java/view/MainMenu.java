@@ -5,6 +5,7 @@
  */
 package view;
 
+import aplikasi.config.FieldLimit;
 import aplikasi.config.KoneksiDB;
 import aplikasi.config.ValueFormatter;
 import aplikasi.controller.TableViewController;
@@ -51,6 +52,8 @@ public class MainMenu extends javax.swing.JFrame {
     private List<Kepala> daftarKepala = new ArrayList<>();
     private List<Operator> daftarOperator = new ArrayList<>();
 
+    private FieldLimit fieldLimit;
+
     /**
      * Creates new form MainMenu
      */
@@ -64,9 +67,11 @@ public class MainMenu extends javax.swing.JFrame {
         this.trial = new Trial();
         this.dies = new Dies();
         this.txtTanggal.setDate(new java.util.Date());
+        this.fieldLimit = new FieldLimit();
         refreshDataTables();
         refresDataKepala();
         refresDataOperator();
+        textFieldLimit();
     }
 
     private void refresDataKepala() {
@@ -143,6 +148,8 @@ public class MainMenu extends javax.swing.JFrame {
         txtMulai = new javax.swing.JTextField();
         txtSelesai = new javax.swing.JTextField();
         jLabel11 = new javax.swing.JLabel();
+        txtFilter = new javax.swing.JTextField();
+        btnPilih = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tableView = new javax.swing.JTable();
@@ -176,6 +183,11 @@ public class MainMenu extends javax.swing.JFrame {
 
         txtNoTrial.setText("190");
         txtNoTrial.setToolTipText("Isi dengan nomor trial");
+        txtNoTrial.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtNoTrialKeyTyped(evt);
+            }
+        });
 
         jToolBar1.setRollover(true);
         jToolBar1.setMaximumSize(new java.awt.Dimension(100, 35));
@@ -283,6 +295,11 @@ public class MainMenu extends javax.swing.JFrame {
                 txtMulaiActionPerformed(evt);
             }
         });
+        txtMulai.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtMulaiKeyTyped(evt);
+            }
+        });
 
         txtSelesai.setVerifyInputWhenFocusTarget(false);
         txtSelesai.addActionListener(new java.awt.event.ActionListener() {
@@ -290,17 +307,43 @@ public class MainMenu extends javax.swing.JFrame {
                 txtSelesaiActionPerformed(evt);
             }
         });
+        txtSelesai.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtSelesaiKeyTyped(evt);
+            }
+        });
 
         jLabel11.setText("Selesai");
+
+        txtFilter.setEnabled(false);
+        txtFilter.setVerifyInputWhenFocusTarget(false);
+        txtFilter.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtFilterActionPerformed(evt);
+            }
+        });
+        txtFilter.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtFilterKeyTyped(evt);
+            }
+        });
+
+        btnPilih.setText("Pilih");
+        btnPilih.setEnabled(false);
+        btnPilih.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPilihActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(jToolBar1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jToolBar1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -331,7 +374,11 @@ public class MainMenu extends javax.swing.JFrame {
                                 .addComponent(btnPilihDies, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(txtNamaDies, javax.swing.GroupLayout.PREFERRED_SIZE, 269, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(txtSelesai, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(txtSelesai, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(txtFilter, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnPilih, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap(34, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -378,7 +425,11 @@ public class MainMenu extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtSelesai, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 141, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 107, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(btnPilih, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(txtFilter, javax.swing.GroupLayout.DEFAULT_SIZE, 28, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -588,16 +639,24 @@ public class MainMenu extends javax.swing.JFrame {
 
     private void btnSimpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSimpanActionPerformed
         try {
+            String depanMulai = txtMulai.getText(0, 2);
+            String belakangMulai = txtMulai.getText(2, 2);
+            StringBuilder m = new StringBuilder().append(depanMulai).append(":").append(belakangMulai).append(":00");
+
+            String depanSelesai = txtSelesai.getText(0, 2);
+            String belakangSelesai = txtSelesai.getText(2, 2);
+            String s = depanSelesai + ":" + belakangSelesai + ":00";
+
             trial.setId_trial(Integer.valueOf(txtNoTrial.getText()));
             trial.setTanggal(Date.valueOf(ValueFormatter.getDateSQL(txtTanggal.getDate())));
             trial.setDies(dies);
             trial.setMesin(mesin);
             trial.setKepala(daftarKepala.get(txtKepala.getSelectedIndex()));
             trial.setOperator(daftarOperator.get(txtOperator.getSelectedIndex()));
-            trial.setMulai(Time.valueOf(txtMulai.getText()));
-            trial.setSelesai(Time.valueOf(txtSelesai.getText()));
+            System.out.println(m);
+            trial.setMulai(Time.valueOf(m.toString()));
+            trial.setSelesai(Time.valueOf(s));
 
-//          trial.setDies();
             repoTrial.save(trial);
             refreshDataTables();
             clearFields();
@@ -607,12 +666,13 @@ public class MainMenu extends javax.swing.JFrame {
             Logger.getLogger(MainMenu.class.getName()).log(Level.SEVERE, null, e);
         }
     }//GEN-LAST:event_btnSimpanActionPerformed
-    public void selectLastRow(){
-        tableView.setRowSelectionInterval(tableView.getRowCount()-1,tableView.getRowCount()-1);
-        tableView.scrollRectToVisible(new Rectangle(tableView.getCellRect(tableView.getRowCount()-1, 0, true)));
+    public void selectLastRow() {
+        tableView.setRowSelectionInterval(tableView.getRowCount() - 1, tableView.getRowCount() - 1);
+        tableView.scrollRectToVisible(new Rectangle(tableView.getCellRect(tableView.getRowCount() - 1, 0, true)));
     }
     private void btnFilterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFilterActionPerformed
-        // TODO add your handling code here:
+        txtFilter.setEnabled(true);
+        btnPilih.setEnabled(true);
     }//GEN-LAST:event_btnFilterActionPerformed
 
     private void btnPilihDiesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPilihDiesActionPerformed
@@ -640,6 +700,44 @@ public class MainMenu extends javax.swing.JFrame {
     private void txtSelesaiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtSelesaiActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtSelesaiActionPerformed
+
+    private void txtSelesaiKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSelesaiKeyTyped
+        if (Character.isAlphabetic(evt.getKeyChar())) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_txtSelesaiKeyTyped
+
+    private void txtMulaiKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtMulaiKeyTyped
+        if (Character.isAlphabetic(evt.getKeyChar())) {
+            evt.consume();
+        }
+
+    }//GEN-LAST:event_txtMulaiKeyTyped
+
+    private void txtNoTrialKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNoTrialKeyTyped
+        if (Character.isAlphabetic(evt.getKeyChar())) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_txtNoTrialKeyTyped
+
+    private void txtFilterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtFilterActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtFilterActionPerformed
+
+    private void txtFilterKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtFilterKeyTyped
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtFilterKeyTyped
+
+    private void btnPilihActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPilihActionPerformed
+        
+    }//GEN-LAST:event_btnPilihActionPerformed
+    
+    private void textFieldLimit() {
+        txtNoTrial.setDocument(new FieldLimit(7));
+        txtMulai.setDocument(new FieldLimit(4));
+        txtSelesai.setDocument(new FieldLimit(4));
+    }
+
     public void refreshDataTables() {
         try {
             tableController.clearData();
@@ -657,6 +755,7 @@ public class MainMenu extends javax.swing.JFrame {
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnFilter;
+    private javax.swing.JButton btnPilih;
     private javax.swing.JButton btnPilihDies;
     private javax.swing.JButton btnPilihMesin;
     private javax.swing.JButton btnReset;
@@ -689,6 +788,7 @@ public class MainMenu extends javax.swing.JFrame {
     private javax.swing.JMenu mnuTransaksi;
     private javax.swing.JTable tableView;
     private javax.swing.JTextField txtCustomer;
+    private javax.swing.JTextField txtFilter;
     private javax.swing.JComboBox txtKepala;
     private javax.swing.JTextField txtMulai;
     private javax.swing.JTextField txtNamaDies;
@@ -706,7 +806,6 @@ public class MainMenu extends javax.swing.JFrame {
     }
 
     public void pilihDies(Dies dies) {
-//        txtIdDies.setText(dies.getId_dies().toString());
         txtNamaDies.setText(dies.getNama());
         txtProses.setText(dies.getProses());
         txtCustomer.setText(dies.getCustomer());

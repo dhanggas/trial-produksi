@@ -155,10 +155,10 @@
       <Layout>
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Group type="102" alignment="0" attributes="0">
-                  <Group type="103" groupAlignment="1" max="-2" attributes="0">
+              <Group type="102" attributes="0">
+                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
                       <Component id="jToolBar1" alignment="0" max="32767" attributes="0"/>
-                      <Group type="102" attributes="0">
+                      <Group type="102" alignment="1" attributes="0">
                           <Group type="103" groupAlignment="1" max="-2" attributes="0">
                               <Component id="jLabel3" max="32767" attributes="0"/>
                               <Component id="jLabel4" alignment="0" max="32767" attributes="0"/>
@@ -196,6 +196,11 @@
                               </Group>
                               <Component id="txtSelesai" alignment="0" min="-2" pref="177" max="-2" attributes="0"/>
                           </Group>
+                      </Group>
+                      <Group type="102" attributes="0">
+                          <Component id="txtFilter" min="-2" pref="280" max="-2" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="btnPilih" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                   <EmptySpace pref="34" max="32767" attributes="0"/>
@@ -256,7 +261,12 @@
                       <Component id="txtSelesai" alignment="3" min="-2" pref="28" max="-2" attributes="0"/>
                       <Component id="jLabel11" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace pref="141" max="32767" attributes="0"/>
+                  <EmptySpace pref="107" max="32767" attributes="0"/>
+                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                      <Component id="btnPilih" max="32767" attributes="0"/>
+                      <Component id="txtFilter" pref="28" max="32767" attributes="0"/>
+                  </Group>
+                  <EmptySpace max="-2" attributes="0"/>
                   <Component id="jToolBar1" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
@@ -284,6 +294,9 @@
             <Property name="text" type="java.lang.String" value="190"/>
             <Property name="toolTipText" type="java.lang.String" value="Isi dengan nomor trial"/>
           </Properties>
+          <Events>
+            <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtNoTrialKeyTyped"/>
+          </Events>
         </Component>
         <Container class="javax.swing.JToolBar" name="jToolBar1">
           <Properties>
@@ -474,6 +487,7 @@
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtMulaiActionPerformed"/>
+            <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtMulaiKeyTyped"/>
           </Events>
         </Component>
         <Component class="javax.swing.JTextField" name="txtSelesai">
@@ -482,12 +496,32 @@
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtSelesaiActionPerformed"/>
+            <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtSelesaiKeyTyped"/>
           </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel11">
           <Properties>
             <Property name="text" type="java.lang.String" value="Selesai"/>
           </Properties>
+        </Component>
+        <Component class="javax.swing.JTextField" name="txtFilter">
+          <Properties>
+            <Property name="enabled" type="boolean" value="false"/>
+            <Property name="verifyInputWhenFocusTarget" type="boolean" value="false"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtFilterActionPerformed"/>
+            <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtFilterKeyTyped"/>
+          </Events>
+        </Component>
+        <Component class="javax.swing.JButton" name="btnPilih">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Pilih"/>
+            <Property name="enabled" type="boolean" value="false"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnPilihActionPerformed"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>
