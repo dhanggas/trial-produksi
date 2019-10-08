@@ -15,6 +15,7 @@ import aplikasi.entity.Mesin;
 import aplikasi.entity.Operator;
 import aplikasi.entity.Trial;
 import java.awt.Rectangle;
+import java.awt.event.KeyEvent;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.sql.Time;
@@ -308,6 +309,9 @@ public class MainMenu extends javax.swing.JFrame {
             }
         });
         txtSelesai.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtSelesaiKeyPressed(evt);
+            }
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 txtSelesaiKeyTyped(evt);
             }
@@ -729,9 +733,15 @@ public class MainMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_txtFilterKeyTyped
 
     private void btnPilihActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPilihActionPerformed
-        
+
     }//GEN-LAST:event_btnPilihActionPerformed
-    
+
+    private void txtSelesaiKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSelesaiKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            btnSimpanActionPerformed(null);
+        }
+    }//GEN-LAST:event_txtSelesaiKeyPressed
+
     private void textFieldLimit() {
         txtNoTrial.setDocument(new FieldLimit(7));
         txtMulai.setDocument(new FieldLimit(4));
@@ -811,4 +821,5 @@ public class MainMenu extends javax.swing.JFrame {
         txtCustomer.setText(dies.getCustomer());
         this.dies = dies;
     }
+
 }
