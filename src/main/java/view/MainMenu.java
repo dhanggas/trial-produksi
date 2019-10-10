@@ -19,6 +19,7 @@ import java.awt.event.KeyEvent;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.sql.Time;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -48,6 +49,8 @@ public class MainMenu extends javax.swing.JFrame {
     private Mesin mesin;
     private Trial trial;
     private Dies dies;
+    private int no = 0;
+    LocalDate date;
 
     private List<Trial> daftarTrial = new ArrayList<>();
     private List<Kepala> daftarKepala = new ArrayList<>();
@@ -67,12 +70,14 @@ public class MainMenu extends javax.swing.JFrame {
         this.mesin = new Mesin();
         this.trial = new Trial();
         this.dies = new Dies();
-        this.txtTanggal.setDate(new java.util.Date());
+        
         this.fieldLimit = new FieldLimit();
+        ambilNoTrialTertinggi();
         refreshDataTables();
         refresDataKepala();
         refresDataOperator();
         textFieldLimit();
+        setDateNowMinOne();
     }
 
     private void refresDataKepala() {
@@ -86,10 +91,14 @@ public class MainMenu extends javax.swing.JFrame {
             Logger.getLogger(MainMenu.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    private void setDateNowMinOne(){
+        date = LocalDate.now().minusDays(1);
+        this.txtTanggal.setDate(Date.valueOf(date.toString()));
+    }
 
     private void clearFields() {
-        txtNoTrial.setText("190");
-        txtTanggal.setDate(new java.util.Date());
+        ambilNoTrialTertinggi();
+        setDateNowMinOne();
         txtNamaDies.setText("");
         txtProses.setText("");
         txtCustomer.setText("");
@@ -126,7 +135,6 @@ public class MainMenu extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        txtNoTrial = new javax.swing.JTextField();
         jToolBar1 = new javax.swing.JToolBar();
         btnSimpan = new javax.swing.JButton();
         btnReset = new javax.swing.JButton();
@@ -151,6 +159,13 @@ public class MainMenu extends javax.swing.JFrame {
         jLabel11 = new javax.swing.JLabel();
         txtFilter = new javax.swing.JTextField();
         btnPilih = new javax.swing.JButton();
+        btnTanggalMin = new javax.swing.JButton();
+        btnAutoNoTrial = new javax.swing.JButton();
+        btnNow = new javax.swing.JButton();
+        btnTanggalPlus = new javax.swing.JButton();
+        txtNoTrial = new javax.swing.JTextField();
+        btnNoTrialMin = new javax.swing.JButton();
+        btnNoTrialPlus = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tableView = new javax.swing.JTable();
@@ -182,21 +197,12 @@ public class MainMenu extends javax.swing.JFrame {
 
         jLabel4.setText("Dies");
 
-        txtNoTrial.setText("190");
-        txtNoTrial.setToolTipText("Isi dengan nomor trial");
-        txtNoTrial.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                txtNoTrialKeyTyped(evt);
-            }
-        });
-
         jToolBar1.setRollover(true);
         jToolBar1.setMaximumSize(new java.awt.Dimension(100, 35));
         jToolBar1.setMinimumSize(new java.awt.Dimension(100, 35));
         jToolBar1.setPreferredSize(new java.awt.Dimension(100, 35));
 
         btnSimpan.setText("Simpan");
-        btnSimpan.setFocusable(false);
         btnSimpan.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnSimpan.setMaximumSize(new java.awt.Dimension(110, 35));
         btnSimpan.setMinimumSize(new java.awt.Dimension(110, 35));
@@ -207,10 +213,14 @@ public class MainMenu extends javax.swing.JFrame {
                 btnSimpanActionPerformed(evt);
             }
         });
+        btnSimpan.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                btnSimpanKeyPressed(evt);
+            }
+        });
         jToolBar1.add(btnSimpan);
 
         btnReset.setText("Reset");
-        btnReset.setFocusable(false);
         btnReset.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnReset.setMaximumSize(new java.awt.Dimension(110, 35));
         btnReset.setMinimumSize(new java.awt.Dimension(110, 35));
@@ -219,6 +229,11 @@ public class MainMenu extends javax.swing.JFrame {
         btnReset.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnResetActionPerformed(evt);
+            }
+        });
+        btnReset.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                btnResetKeyPressed(evt);
             }
         });
         jToolBar1.add(btnReset);
@@ -240,10 +255,14 @@ public class MainMenu extends javax.swing.JFrame {
         jLabel8.setText("Tanggal");
 
         btnPilihDies.setText("Pilih");
-        btnPilihDies.setFocusable(false);
         btnPilihDies.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnPilihDiesActionPerformed(evt);
+            }
+        });
+        btnPilihDies.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                btnPilihDiesKeyPressed(evt);
             }
         });
 
@@ -257,10 +276,14 @@ public class MainMenu extends javax.swing.JFrame {
         });
 
         btnPilihMesin.setText("Pilih");
-        btnPilihMesin.setFocusable(false);
         btnPilihMesin.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnPilihMesinActionPerformed(evt);
+            }
+        });
+        btnPilihMesin.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                btnPilihMesinKeyPressed(evt);
             }
         });
 
@@ -340,6 +363,68 @@ public class MainMenu extends javax.swing.JFrame {
             }
         });
 
+        btnTanggalMin.setText("<");
+        btnTanggalMin.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        btnTanggalMin.setFocusPainted(false);
+        btnTanggalMin.setFocusable(false);
+        btnTanggalMin.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnTanggalMinActionPerformed(evt);
+            }
+        });
+
+        btnAutoNoTrial.setText("Auto");
+        btnAutoNoTrial.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        btnAutoNoTrial.setFocusPainted(false);
+        btnAutoNoTrial.setFocusable(false);
+        btnAutoNoTrial.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAutoNoTrialActionPerformed(evt);
+            }
+        });
+
+        btnNow.setText("Now");
+        btnNow.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        btnNow.setFocusPainted(false);
+        btnNow.setFocusable(false);
+        btnNow.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNowActionPerformed(evt);
+            }
+        });
+
+        btnTanggalPlus.setText(">");
+        btnTanggalPlus.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        btnTanggalPlus.setFocusPainted(false);
+        btnTanggalPlus.setFocusable(false);
+        btnTanggalPlus.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnTanggalPlusActionPerformed(evt);
+            }
+        });
+
+        txtNoTrial.setText("190");
+
+        btnNoTrialMin.setText("<");
+        btnNoTrialMin.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        btnNoTrialMin.setFocusPainted(false);
+        btnNoTrialMin.setFocusable(false);
+        btnNoTrialMin.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNoTrialMinActionPerformed(evt);
+            }
+        });
+
+        btnNoTrialPlus.setText(">");
+        btnNoTrialPlus.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        btnNoTrialPlus.setFocusPainted(false);
+        btnNoTrialPlus.setFocusable(false);
+        btnNoTrialPlus.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNoTrialPlusActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -361,8 +446,6 @@ public class MainMenu extends javax.swing.JFrame {
                             .addComponent(jLabel11, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtNoTrial, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtTanggal, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                 .addComponent(txtProses, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 179, Short.MAX_VALUE)
                                 .addComponent(txtCustomer, javax.swing.GroupLayout.Alignment.LEADING))
@@ -378,7 +461,28 @@ public class MainMenu extends javax.swing.JFrame {
                                 .addComponent(btnPilihDies, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(txtNamaDies, javax.swing.GroupLayout.PREFERRED_SIZE, 269, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(txtSelesai, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(txtSelesai, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(txtTanggal, javax.swing.GroupLayout.DEFAULT_SIZE, 145, Short.MAX_VALUE)
+                                    .addComponent(txtNoTrial))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(btnNoTrialMin, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(btnAutoNoTrial, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(btnTanggalMin, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(btnNow, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(btnTanggalPlus, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                        .addGap(4, 4, 4)
+                                        .addComponent(btnNoTrialPlus, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))))))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(txtFilter, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -388,13 +492,20 @@ public class MainMenu extends javax.swing.JFrame {
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
-                    .addComponent(txtNoTrial))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnAutoNoTrial, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtNoTrial, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnNoTrialMin, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnNoTrialPlus, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtTanggal, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtTanggal, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(btnTanggalMin, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnNow, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnTanggalPlus, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -429,7 +540,7 @@ public class MainMenu extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtSelesai, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 107, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 105, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(btnPilih, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(txtFilter, javax.swing.GroupLayout.DEFAULT_SIZE, 28, Short.MAX_VALUE))
@@ -441,6 +552,8 @@ public class MainMenu extends javax.swing.JFrame {
         getContentPane().add(jPanel1, java.awt.BorderLayout.LINE_START);
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Table"));
+
+        jScrollPane1.setToolTipText("");
 
         tableView.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -639,6 +752,9 @@ public class MainMenu extends javax.swing.JFrame {
 
     private void btnResetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnResetActionPerformed
         clearFields();
+        refreshDataTables();
+        ambilNoTrialTertinggi();
+        setDateNowMinOne();
     }//GEN-LAST:event_btnResetActionPerformed
 
     private void btnSimpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSimpanActionPerformed
@@ -718,12 +834,6 @@ public class MainMenu extends javax.swing.JFrame {
 
     }//GEN-LAST:event_txtMulaiKeyTyped
 
-    private void txtNoTrialKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNoTrialKeyTyped
-        if (Character.isAlphabetic(evt.getKeyChar())) {
-            evt.consume();
-        }
-    }//GEN-LAST:event_txtNoTrialKeyTyped
-
     private void txtFilterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtFilterActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtFilterActionPerformed
@@ -742,8 +852,75 @@ public class MainMenu extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_txtSelesaiKeyPressed
 
+    private void btnSimpanKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btnSimpanKeyPressed
+        if (evt.getKeyCode()== KeyEvent.VK_ENTER) {
+            btnSimpanActionPerformed(null);
+        }
+    }//GEN-LAST:event_btnSimpanKeyPressed
+
+    private void btnPilihDiesKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btnPilihDiesKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            btnPilihDiesActionPerformed(null);
+        }
+    }//GEN-LAST:event_btnPilihDiesKeyPressed
+
+    private void btnPilihMesinKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btnPilihMesinKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            btnPilihMesinActionPerformed(null);
+        }
+        
+    }//GEN-LAST:event_btnPilihMesinKeyPressed
+
+    private void btnResetKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btnResetKeyPressed
+        if (evt.getKeyCode()==KeyEvent.VK_ENTER) {
+            btnResetActionPerformed(null);
+        }
+    }//GEN-LAST:event_btnResetKeyPressed
+
+    private void btnTanggalMinActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTanggalMinActionPerformed
+        date = date.minusDays(1);
+        this.txtTanggal.setDate(Date.valueOf(date.toString()));
+    }//GEN-LAST:event_btnTanggalMinActionPerformed
+
+    private void btnAutoNoTrialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAutoNoTrialActionPerformed
+        ambilNoTrialTertinggi();
+    }//GEN-LAST:event_btnAutoNoTrialActionPerformed
+     
+    private void ambilNoTrialTertinggi(){
+        try {
+            List<Trial> list= repoTrial.findMaxValue();
+            if (!list.isEmpty()) {
+                for (Trial trial : list) {
+                    no = trial.getId_trial()+1;
+                }
+                txtNoTrial.setText(String.valueOf(no));
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Tidak dapat mendapatkan kode!", getTitle(), JOptionPane.ERROR_MESSAGE);
+            Logger.getLogger(MainMenu.class.getName()).log(Level.SEVERE, null, e);
+        }
+    }
+    private void btnNowActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNowActionPerformed
+        date = LocalDate.now();
+        this.txtTanggal.setDate(Date.valueOf(date.toString()));
+    }//GEN-LAST:event_btnNowActionPerformed
+
+    private void btnTanggalPlusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTanggalPlusActionPerformed
+        date = date.plusDays(1);
+        this.txtTanggal.setDate(Date.valueOf(date.toString()));
+    }//GEN-LAST:event_btnTanggalPlusActionPerformed
+
+    private void btnNoTrialMinActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNoTrialMinActionPerformed
+        no= no-1;
+        txtNoTrial.setText(String.valueOf(no));
+    }//GEN-LAST:event_btnNoTrialMinActionPerformed
+
+    private void btnNoTrialPlusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNoTrialPlusActionPerformed
+        no= no+1;
+        txtNoTrial.setText(String.valueOf(no));
+    }//GEN-LAST:event_btnNoTrialPlusActionPerformed
+
     private void textFieldLimit() {
-        txtNoTrial.setDocument(new FieldLimit(7));
         txtMulai.setDocument(new FieldLimit(4));
         txtSelesai.setDocument(new FieldLimit(4));
     }
@@ -764,12 +941,18 @@ public class MainMenu extends javax.swing.JFrame {
         }
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAutoNoTrial;
     private javax.swing.JButton btnFilter;
+    private javax.swing.JButton btnNoTrialMin;
+    private javax.swing.JButton btnNoTrialPlus;
+    private javax.swing.JButton btnNow;
     private javax.swing.JButton btnPilih;
     private javax.swing.JButton btnPilihDies;
     private javax.swing.JButton btnPilihMesin;
     private javax.swing.JButton btnReset;
     private javax.swing.JButton btnSimpan;
+    private javax.swing.JButton btnTanggalMin;
+    private javax.swing.JButton btnTanggalPlus;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;

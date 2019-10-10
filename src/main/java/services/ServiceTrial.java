@@ -146,7 +146,25 @@ public class ServiceTrial implements RepoTrial{
 
     @Override
     public List<Trial> findMaxValue() throws SQLException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        String sql = "SELECT * FROM `tb_trial` order BY id_trial DESC LIMIT 1";
+
+        List<Trial> list = new ArrayList<>();
+
+        Connection connect = ds.getConnection();
+        PreparedStatement ps = connect.prepareStatement(sql);
+        ResultSet rs = ps.executeQuery();
+        Trial a = new Trial();
+        while (rs.next()) {
+            a.setId_trial(rs.getInt("id_trial"));
+            a.setTanggal(rs.getDate("tanggal"));
+
+            
+            list.add(a);
+        }
+        ps.close();
+        rs.close();
+        connect.close();
+        return list;
     }
     
 }

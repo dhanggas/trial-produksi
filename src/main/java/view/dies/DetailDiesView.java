@@ -68,7 +68,7 @@ public class DetailDiesView extends javax.swing.JDialog {
         jScrollPane1 = new javax.swing.JScrollPane();
         tableView = new javax.swing.JTable();
         txtCari = new javax.swing.JTextField();
-        txtReset = new javax.swing.JButton();
+        lblCari = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -122,16 +122,11 @@ public class DetailDiesView extends javax.swing.JDialog {
             }
         });
 
-        txtReset.setText("Reset");
-        txtReset.setFocusable(false);
-        txtReset.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        txtReset.setMaximumSize(new java.awt.Dimension(120, 35));
-        txtReset.setMinimumSize(new java.awt.Dimension(120, 35));
-        txtReset.setPreferredSize(new java.awt.Dimension(120, 35));
-        txtReset.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        txtReset.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtResetActionPerformed(evt);
+        lblCari.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblCari.setText("Cari");
+        lblCari.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblCariMouseClicked(evt);
             }
         });
 
@@ -140,20 +135,20 @@ public class DetailDiesView extends javax.swing.JDialog {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(6, 6, 6)
-                .addComponent(txtCari, javax.swing.GroupLayout.PREFERRED_SIZE, 370, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtReset, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(31, Short.MAX_VALUE))
-            .addComponent(jScrollPane1)
+                .addGap(4, 4, 4)
+                .addComponent(lblCari, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(8, 8, 8)
+                .addComponent(txtCari)
+                .addContainerGap())
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 533, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(txtCari, javax.swing.GroupLayout.DEFAULT_SIZE, 32, Short.MAX_VALUE)
-                    .addComponent(txtReset, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                    .addComponent(lblCari, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 646, Short.MAX_VALUE))
         );
@@ -183,10 +178,12 @@ public class DetailDiesView extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_tableViewMouseClicked
 
-    private void txtResetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtResetActionPerformed
+    private void lblCariMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCariMouseClicked
+    if (evt.getClickCount()==2) {
         txtCari.setText("");
         txtCari.requestFocus();
-    }//GEN-LAST:event_txtResetActionPerformed
+        }
+    }//GEN-LAST:event_lblCariMouseClicked
     
     public void refreshDataTablesByName() {
         try {
@@ -204,8 +201,8 @@ public class DetailDiesView extends javax.swing.JDialog {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel lblCari;
     private javax.swing.JTable tableView;
     private javax.swing.JTextField txtCari;
-    private javax.swing.JButton txtReset;
     // End of variables declaration//GEN-END:variables
 }
