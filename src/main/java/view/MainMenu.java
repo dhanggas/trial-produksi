@@ -33,6 +33,8 @@ import services.ServiceKepala;
 import services.ServiceOperator;
 import services.ServiceTrial;
 import view.dies.DetailDiesView;
+import view.laporan.LapTrial;
+import view.laporan.LaporanTrial;
 import view.mesin.DetailMesinView;
 
 /**
@@ -170,15 +172,10 @@ public class MainMenu extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         tableView = new javax.swing.JTable();
         jMenuBar1 = new javax.swing.JMenuBar();
-        mnuMasterData = new javax.swing.JMenu();
-        mniUsers = new javax.swing.JMenuItem();
+        mnuLaporan = new javax.swing.JMenu();
+        mniLapTrial = new javax.swing.JMenuItem();
         jSeparator5 = new javax.swing.JPopupMenu.Separator();
         mniAset = new javax.swing.JMenuItem();
-        mniKategoriAset = new javax.swing.JMenuItem();
-        mniKepemilikan = new javax.swing.JMenuItem();
-        mniLokasi = new javax.swing.JMenuItem();
-        mniStatus = new javax.swing.JMenuItem();
-        mnuTransaksi = new javax.swing.JMenu();
         jMenu1 = new javax.swing.JMenu();
         mniTentangAplikasi = new javax.swing.JMenuItem();
 
@@ -610,67 +607,26 @@ public class MainMenu extends javax.swing.JFrame {
         jMenuBar1.setMinimumSize(new java.awt.Dimension(320, 35));
         jMenuBar1.setPreferredSize(new java.awt.Dimension(320, 35));
 
-        mnuMasterData.setText("Master Data");
+        mnuLaporan.setText("Laporan");
 
-        mniUsers.setText("User");
-        mniUsers.setEnabled(false);
-        mniUsers.addActionListener(new java.awt.event.ActionListener() {
+        mniLapTrial.setText("Laporan Trial");
+        mniLapTrial.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                mniUsersActionPerformed(evt);
+                mniLapTrialActionPerformed(evt);
             }
         });
-        mnuMasterData.add(mniUsers);
-        mnuMasterData.add(jSeparator5);
+        mnuLaporan.add(mniLapTrial);
+        mnuLaporan.add(jSeparator5);
 
         mniAset.setText("Aset");
-        mniAset.setEnabled(false);
         mniAset.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 mniAsetActionPerformed(evt);
             }
         });
-        mnuMasterData.add(mniAset);
+        mnuLaporan.add(mniAset);
 
-        mniKategoriAset.setText("Kategori");
-        mniKategoriAset.setEnabled(false);
-        mniKategoriAset.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                mniKategoriAsetActionPerformed(evt);
-            }
-        });
-        mnuMasterData.add(mniKategoriAset);
-
-        mniKepemilikan.setText("Kepemilikan");
-        mniKepemilikan.setEnabled(false);
-        mniKepemilikan.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                mniKepemilikanActionPerformed(evt);
-            }
-        });
-        mnuMasterData.add(mniKepemilikan);
-
-        mniLokasi.setText("Lokasi");
-        mniLokasi.setEnabled(false);
-        mniLokasi.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                mniLokasiActionPerformed(evt);
-            }
-        });
-        mnuMasterData.add(mniLokasi);
-
-        mniStatus.setText("Status");
-        mniStatus.setEnabled(false);
-        mniStatus.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                mniStatusActionPerformed(evt);
-            }
-        });
-        mnuMasterData.add(mniStatus);
-
-        jMenuBar1.add(mnuMasterData);
-
-        mnuTransaksi.setText("Transaksi");
-        jMenuBar1.add(mnuTransaksi);
+        jMenuBar1.add(mnuLaporan);
 
         jMenu1.setText("Tentang");
         jMenu1.addActionListener(new java.awt.event.ActionListener() {
@@ -680,7 +636,6 @@ public class MainMenu extends javax.swing.JFrame {
         });
 
         mniTentangAplikasi.setText("Tentang Aplikasi");
-        mniTentangAplikasi.setEnabled(false);
         mniTentangAplikasi.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 mniTentangAplikasiActionPerformed(evt);
@@ -695,53 +650,11 @@ public class MainMenu extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void mniUsersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniUsersActionPerformed
-    }//GEN-LAST:event_mniUsersActionPerformed
-
     public void pilihMesin(Mesin mesin) {
 //        txtIdMesin.setText(mesin.getId_mesin().toString());
         setField(mesin);
         this.mesin = mesin;
     }
-
-    private void mniAsetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniAsetActionPerformed
-//        try {
-//            DaftarAsetView view = new DaftarAsetView(this, p);
-//            setInnerLayout(view);
-//        } catch (Exception e) {
-//            Logger.getLogger(MainMenuView.class.getName()).log(Level.SEVERE, null, e);
-//        }
-    }//GEN-LAST:event_mniAsetActionPerformed
-
-    private void mniKategoriAsetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniKategoriAsetActionPerformed
-//        try {
-//            DaftarKategoriView view = new DaftarKategoriView(this);
-//            setInnerLayout(view);
-//        } catch (Exception e) {
-//            Logger.getLogger(MainMenuView.class.getName()).log(Level.SEVERE, null, e);
-//        }
-    }//GEN-LAST:event_mniKategoriAsetActionPerformed
-
-    private void mniKepemilikanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniKepemilikanActionPerformed
-//        try {
-//            DaftarKepemilikanView view = new DaftarKepemilikanView(this);
-//            setInnerLayout(view);
-//        } catch (Exception e) {
-//            Logger.getLogger(MainMenuView.class.getName()).log(Level.SEVERE, null, e);
-//        }
-    }//GEN-LAST:event_mniKepemilikanActionPerformed
-
-    private void mniLokasiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniLokasiActionPerformed
-//        try {
-//            DaftarLokasiView view = new DaftarLokasiView(this);
-//            setInnerLayout(view);
-//        } catch (Exception e) {
-//            Logger.getLogger(MainMenuView.class.getName()).log(Level.SEVERE, null, e);
-//        }
-    }//GEN-LAST:event_mniLokasiActionPerformed
-
-    private void mniStatusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniStatusActionPerformed
-    }//GEN-LAST:event_mniStatusActionPerformed
 
     private void mniTentangAplikasiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniTentangAplikasiActionPerformed
     }//GEN-LAST:event_mniTentangAplikasiActionPerformed
@@ -920,6 +833,27 @@ public class MainMenu extends javax.swing.JFrame {
         txtNoTrial.setText(String.valueOf(no));
     }//GEN-LAST:event_btnNoTrialPlusActionPerformed
 
+    private void mniAsetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniAsetActionPerformed
+        //        try {
+            //            DaftarAsetView view = new DaftarAsetView(this, p);
+            //            setInnerLayout(view);
+            //        } catch (Exception e) {
+            //            Logger.getLogger(MainMenuView.class.getName()).log(Level.SEVERE, null, e);
+            //        }
+    }//GEN-LAST:event_mniAsetActionPerformed
+
+    private void mniLapTrialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniLapTrialActionPerformed
+       try {
+            LapTrial view = new LapTrial(this , true);
+            view.setTitle("Laporan trial Produksi");
+//            view.setResizable(true);
+            view.setLocationByPlatform(true);
+            view.setVisible(true);
+        } catch (Exception ex) {
+            Logger.getLogger(MainMenu.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_mniLapTrialActionPerformed
+
     private void textFieldLimit() {
         txtMulai.setDocument(new FieldLimit(4));
         txtSelesai.setDocument(new FieldLimit(4));
@@ -971,14 +905,9 @@ public class MainMenu extends javax.swing.JFrame {
     private javax.swing.JPopupMenu.Separator jSeparator5;
     private javax.swing.JToolBar jToolBar1;
     private javax.swing.JMenuItem mniAset;
-    private javax.swing.JMenuItem mniKategoriAset;
-    private javax.swing.JMenuItem mniKepemilikan;
-    private javax.swing.JMenuItem mniLokasi;
-    private javax.swing.JMenuItem mniStatus;
+    private javax.swing.JMenuItem mniLapTrial;
     private javax.swing.JMenuItem mniTentangAplikasi;
-    private javax.swing.JMenuItem mniUsers;
-    private javax.swing.JMenu mnuMasterData;
-    private javax.swing.JMenu mnuTransaksi;
+    private javax.swing.JMenu mnuLaporan;
     private javax.swing.JTable tableView;
     private javax.swing.JTextField txtCustomer;
     private javax.swing.JTextField txtFilter;
@@ -1004,5 +933,4 @@ public class MainMenu extends javax.swing.JFrame {
         txtCustomer.setText(dies.getCustomer());
         this.dies = dies;
     }
-
 }

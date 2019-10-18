@@ -12,18 +12,17 @@
         </Property>
       </Properties>
       <SubComponents>
-        <Menu class="javax.swing.JMenu" name="mnuMasterData">
+        <Menu class="javax.swing.JMenu" name="mnuLaporan">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Master Data"/>
+            <Property name="text" type="java.lang.String" value="Laporan"/>
           </Properties>
           <SubComponents>
-            <MenuItem class="javax.swing.JMenuItem" name="mniUsers">
+            <MenuItem class="javax.swing.JMenuItem" name="mniLapTrial">
               <Properties>
-                <Property name="text" type="java.lang.String" value="User"/>
-                <Property name="enabled" type="boolean" value="false"/>
+                <Property name="text" type="java.lang.String" value="Laporan Trial"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mniUsersActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mniLapTrialActionPerformed"/>
               </Events>
             </MenuItem>
             <MenuItem class="javax.swing.JPopupMenu$Separator" name="jSeparator5">
@@ -31,54 +30,12 @@
             <MenuItem class="javax.swing.JMenuItem" name="mniAset">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Aset"/>
-                <Property name="enabled" type="boolean" value="false"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mniAsetActionPerformed"/>
               </Events>
             </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="mniKategoriAset">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Kategori"/>
-                <Property name="enabled" type="boolean" value="false"/>
-              </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mniKategoriAsetActionPerformed"/>
-              </Events>
-            </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="mniKepemilikan">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Kepemilikan"/>
-                <Property name="enabled" type="boolean" value="false"/>
-              </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mniKepemilikanActionPerformed"/>
-              </Events>
-            </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="mniLokasi">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Lokasi"/>
-                <Property name="enabled" type="boolean" value="false"/>
-              </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mniLokasiActionPerformed"/>
-              </Events>
-            </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="mniStatus">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Status"/>
-                <Property name="enabled" type="boolean" value="false"/>
-              </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mniStatusActionPerformed"/>
-              </Events>
-            </MenuItem>
           </SubComponents>
-        </Menu>
-        <Menu class="javax.swing.JMenu" name="mnuTransaksi">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Transaksi"/>
-          </Properties>
         </Menu>
         <Menu class="javax.swing.JMenu" name="jMenu1">
           <Properties>
@@ -91,7 +48,6 @@
             <MenuItem class="javax.swing.JMenuItem" name="mniTentangAplikasi">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Tentang Aplikasi"/>
-                <Property name="enabled" type="boolean" value="false"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mniTentangAplikasiActionPerformed"/>
