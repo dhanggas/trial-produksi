@@ -118,7 +118,7 @@
                           <Group type="103" groupAlignment="1" max="-2" attributes="0">
                               <Component id="jLabel3" max="32767" attributes="0"/>
                               <Component id="jLabel4" alignment="0" max="32767" attributes="0"/>
-                              <Component id="jLabel8" alignment="0" pref="47" max="32767" attributes="0"/>
+                              <Component id="jLabel8" alignment="0" max="32767" attributes="0"/>
                               <Component id="jLabel1" alignment="0" max="32767" attributes="0"/>
                               <Component id="jLabel5" alignment="1" max="32767" attributes="0"/>
                               <Component id="jLabel6" alignment="1" max="32767" attributes="0"/>
@@ -255,7 +255,7 @@
                   <EmptySpace pref="105" max="32767" attributes="0"/>
                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
                       <Component id="btnPilih" max="32767" attributes="0"/>
-                      <Component id="txtFilter" pref="28" max="32767" attributes="0"/>
+                      <Component id="txtFilter" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="jToolBar1" min="-2" max="-2" attributes="0"/>

@@ -7,6 +7,7 @@ package repository;
 
 import repository.BaseRepository;
 import aplikasi.entity.Trial;
+import java.sql.Date;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -25,6 +26,8 @@ public interface RepoTrial extends BaseRepository<Trial, String> {
     public List<Trial> findByQtyOneByName(String nama) throws SQLException;
 
     public List<Trial> findFilterAlll(String text, String toString, String toString0, String text0, String toString1, String toString2, String toString3, String toString4) throws SQLException;
+    
+    public List<Trial> findTrialByProdukBymesin(Date awal, Date akhir, String produk, String mesin) throws SQLException;
 
 
 }

@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package view.laporan;
 
 import aplikasi.config.KoneksiDB;
@@ -11,13 +10,22 @@ import aplikasi.config.ValueFormatter;
 import aplikasi.controller.TableViewController;
 import aplikasi.entity.Mesin;
 import aplikasi.entity.Trial;
+import java.sql.Date;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+import net.sf.jasperreports.view.JasperViewer;
 import repository.RepoMesin;
 import repository.RepoTrial;
 import services.ServiceMesin;
@@ -30,14 +38,12 @@ import view.MainMenu;
  */
 public class LapTrial extends javax.swing.JDialog {
 
-private final RepoMesin repoMesin;    
-private final RepoTrial repoTrial;  
-private final TableViewController tableController;
+    private final RepoMesin repoMesin;
+    private final RepoTrial repoTrial;
+    private final TableViewController tableController;
 
-private List<Trial> daftarTrial = new ArrayList<>();
-private List<Mesin> daftarMesin = new ArrayList<>();
-
-
+    private List<Trial> daftarTrial = new ArrayList<>();
+    private List<Mesin> daftarMesin = new ArrayList<>();
 
     public LapTrial(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
@@ -45,8 +51,11 @@ private List<Mesin> daftarMesin = new ArrayList<>();
         this.repoMesin = new ServiceMesin(KoneksiDB.getDataSource());
         this.repoTrial = new ServiceTrial(KoneksiDB.getDataSource());
         this.tableController = new TableViewController(tableView);
+        setFirstDayInMonth();
+        txtTanggalAkhir.setDate(new java.util.Date());
         refresDaftarMesin();
         refreshDataTables();
+        hideFilter();
     }
 
     /**
@@ -236,17 +245,24 @@ private List<Mesin> daftarMesin = new ArrayList<>();
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnFilterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFilterActionPerformed
-                if (btnFilter.getText().equals(">>")) {
-                        btnFilter.setText("<<");
-                        showFilter();
-                    } else {
-                        btnFilter.setText(">>");
-                        txtProduk.setText("");
-                        txtMesin.setSelectedIndex(0);
-                        hideFilter();
-                    }
+        if (btnFilter.getText().equals(">>")) {
+            btnFilter.setText("<<");
+            showFilter();
+        } else {
+            btnFilter.setText(">>");
+            txtProduk.setText("");
+            txtMesin.setSelectedIndex(0);
+            hideFilter();
+        }
     }//GEN-LAST:event_btnFilterActionPerformed
-private void hideFilter() {
+    private void setFirstDayInMonth() {
+        LocalDate todaydate = LocalDate.now();
+        System.out.println("Months first date in yyyy-mm-dd: " + todaydate.withDayOfMonth(1));
+        txtTanggalAwal.setDate(Date.valueOf(todaydate.withDayOfMonth(1).toString()));
+
+    }
+
+    private void hideFilter() {
         lblKategori.setVisible(false);
         txtProduk.setVisible(false);
         lblKepemilikan.setVisible(false);
@@ -259,6 +275,7 @@ private void hideFilter() {
         lblKepemilikan.setVisible(true);
         txtMesin.setVisible(true);
     }
+
     public void refreshDataTables() {
         try {
             tableController.clearData();
@@ -274,13 +291,16 @@ private void hideFilter() {
             Logger.getLogger(MainMenu.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+
     private void refresDaftarMesin() {
         try {
             txtMesin.removeAllItems();
+            txtMesin.addItem("%");
             daftarMesin = repoMesin.findAll();
             for (Mesin k : daftarMesin) {
                 txtMesin.addItem(k.getNama());
             }
+            txtMesin.setSelectedItem("%");
         } catch (SQLException ex) {
             Logger.getLogger(LapTrial.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -290,34 +310,56 @@ private void hideFilter() {
     }//GEN-LAST:event_txtMesinItemStateChanged
 
     private void btnProsesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProsesActionPerformed
-//        String valueTglAwal = ValueFormatter.getDateSQL(txtTanggalAwal.getDate());
-//        String valueTglAkhir = ValueFormatter.getDateSQL(txtTanggalAkhir.getDate());
-//        refreshDataPeminjaman(Date.valueOf(valueTglAwal), Date.valueOf(valueTglAkhir));
+        String valueTglAwal = ValueFormatter.getDateSQL(txtTanggalAwal.getDate());
+        String valueTglAkhir = ValueFormatter.getDateSQL(txtTanggalAkhir.getDate());
+        refreshDataPeminjaman(Date.valueOf(valueTglAwal), Date.valueOf(valueTglAkhir));
     }//GEN-LAST:event_btnProsesActionPerformed
+    private void refreshDataPeminjaman(Date tglAwal, Date tglAkhir) {
+        try {
+            String produk = txtProduk.getText();
+            String mesin = txtMesin.getSelectedItem().toString();
 
+            tableController.clearData();
+//            daftarPeminjamanDetail = repoPeminjaman.findPeminjamanByTglBetween(tglAwal, tglAkhir);
+            daftarTrial = repoTrial.findTrialByProdukBymesin(tglAwal, tglAkhir, produk, mesin);
+            if (daftarTrial.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Tidak ada transaksi !", getTitle(), JOptionPane.INFORMATION_MESSAGE);
+            }
+            btnCetak.setEnabled(!daftarTrial.isEmpty());
+            for (Trial t : daftarTrial) {
+                Object[] row = {t.getId_trial(), ValueFormatter.getLocalDateShort(t.getTanggal().toLocalDate()), t.getDies().getNama(), t.getDies().getProses(), t.getMesin().getNama(),
+                    t.getKepala().getNama(), t.getOperator().getNama(), t.getMulai(), t.getSelesai()};
+                tableController.getModel().addRow(row);
+            }
+            tableController.setContentTableAlignment(Arrays.asList(0, 1, 3, 4, 5, 6, 7, 8));
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(this, "Tidak dapat menampilkan data Trial", getTitle(), JOptionPane.ERROR_MESSAGE);
+            Logger.getLogger(LapTrial.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
     private void btnCetakActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCetakActionPerformed
-        //        if (daftarPeminjamanDetail.size() > 0) {
-            //            try {
-                //                String url = "/laporan/PeminjamanAset.jasper";
-                //                Map<String, Object> map = new HashMap<>();
-                //                map.put("tglAwal", txtTanggalAwal.getDate());
-                //                map.put("tglAkhir", txtTanggalAkhir.getDate());
-                //                map.put("pengguna", p.getNama());
-                //                map.put("jabatan", p.getJabatan().toString());
-                //                JasperPrint print = JasperFillManager.fillReport(
-                    //                        getClass().getResourceAsStream(url),
-                    //                        map,
-                    //                        new JRBeanCollectionDataSource(daftarPeminjamanDetail));
-                //                JasperViewer view = new JasperViewer(print, false);
-                //                view.setLocationRelativeTo(null);
-                //                view.setExtendedState(JasperViewer.MAXIMIZED_BOTH);
-                //                view.setVisible(true);
-                //            } catch (JRException ex) {
-                //                Logger.getLogger(LaporanSirkulasiAsetView.class.getName()).log(Level.SEVERE, null, ex);
-                //            }
-            //        } else {
-            //            JOptionPane.showMessageDialog(this, "Data belum diproses", getTitle(), JOptionPane.INFORMATION_MESSAGE);
-            //        }
+        if (daftarTrial.size() > 0) {
+            try {
+                String url = "/laporan/LaporanTrial.jasper";
+                Map<String, Object> map = new HashMap<>();
+                map.put("tglAwal", txtTanggalAwal.getDate());
+                map.put("tglAkhir", txtTanggalAkhir.getDate());
+                JasperPrint print = JasperFillManager.fillReport(
+                        getClass().getResourceAsStream(url),
+                        map,
+                        new JRBeanCollectionDataSource(daftarTrial));
+                JasperViewer view = new JasperViewer(print, false);
+                view.setLocationRelativeTo(null);
+                view.setExtendedState(JasperViewer.MAXIMIZED_BOTH);
+                view.setAlwaysOnTop(true);
+                view.setVisible(true);
+            } catch (JRException ex) {
+                Logger.getLogger(LapTrial.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Data belum diproses", getTitle(), JOptionPane.INFORMATION_MESSAGE);
+        }
+        this.dispose();
     }//GEN-LAST:event_btnCetakActionPerformed
 
 

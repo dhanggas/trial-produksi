@@ -11,6 +11,7 @@ import aplikasi.entity.Mesin;
 import aplikasi.entity.Operator;
 import aplikasi.entity.Trial;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -161,6 +162,60 @@ public class ServiceTrial implements RepoTrial{
             
             list.add(a);
         }
+        ps.close();
+        rs.close();
+        connect.close();
+        return list;
+    }
+
+    @Override
+    public List<Trial> findTrialByProdukBymesin(Date awal, Date akhir, String produk, String mesin) throws SQLException {
+                String sql = "SELECT * from v_trial \n"
+                + "WHERE  tanggal between ? AND ? \n"
+                + "AND nama_dies like CONCAT('%', ?, '%') \n"
+                + "AND nama_mesin LIKE ? order by id_trial asc";
+        List<Trial> list = new ArrayList<>();
+
+        Connection connect = ds.getConnection();
+        PreparedStatement ps = connect.prepareStatement(sql);
+        ps.setDate(1, awal);
+        ps.setDate(2, akhir);
+        ps.setString(3, produk);
+        ps.setString(4, mesin);
+        ResultSet rs = ps.executeQuery();
+        while (rs.next()) {
+            Trial t = new Trial();
+            t.setId_trial(rs.getInt("id_trial"));
+            t.setTanggal(rs.getDate("tanggal"));
+            t.setMulai(rs.getTime("mulai"));
+            t.setSelesai(rs.getTime("selesai"));
+            
+            Dies d = new Dies();
+            d.setId_dies(rs.getInt("id_dies"));
+            d.setNama(rs.getString("nama_dies"));
+            d.setProses(rs.getString("proses_dies"));
+            d.setCustomer(rs.getString("customer_dies"));
+            
+            Mesin m = new Mesin();
+            m.setId_mesin(rs.getInt("id_mesin"));
+            m.setNama(rs.getString("nama_mesin"));
+            
+            Kepala k = new Kepala();
+            k.setId_kepala(rs.getInt("id_kepala"));
+            k.setNama(rs.getString("nama_kepala"));
+            
+            Operator o = new Operator();
+            o.setId_operator(rs.getInt("id_operator"));
+            o.setNama(rs.getString("nama_operator"));
+            
+            t.setDies(d);
+            t.setMesin(m);
+            t.setKepala(k);
+            t.setOperator(o);
+            
+            list.add(t);
+        }
+
         ps.close();
         rs.close();
         connect.close();

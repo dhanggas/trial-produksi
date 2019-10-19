@@ -34,7 +34,6 @@ import services.ServiceOperator;
 import services.ServiceTrial;
 import view.dies.DetailDiesView;
 import view.laporan.LapTrial;
-import view.laporan.LaporanTrial;
 import view.mesin.DetailMesinView;
 
 /**
