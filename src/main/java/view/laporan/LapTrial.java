@@ -54,7 +54,7 @@ public class LapTrial extends javax.swing.JDialog {
         setFirstDayInMonth();
         txtTanggalAkhir.setDate(new java.util.Date());
         refresDaftarMesin();
-        refreshDataTables();
+        refreshDataTrial();
         hideFilter();
     }
 
@@ -75,9 +75,11 @@ public class LapTrial extends javax.swing.JDialog {
         txtTanggalAkhir = new com.toedter.calendar.JDateChooser();
         jSeparator1 = new javax.swing.JToolBar.Separator();
         btnFilter = new javax.swing.JButton();
-        lblKategori = new javax.swing.JLabel();
+        lblProduk = new javax.swing.JLabel();
         txtProduk = new javax.swing.JTextField();
-        lblKepemilikan = new javax.swing.JLabel();
+        lblProses = new javax.swing.JLabel();
+        txtProses = new javax.swing.JTextField();
+        lblMesin = new javax.swing.JLabel();
         txtMesin = new javax.swing.JComboBox<String>();
         jLabel3 = new javax.swing.JLabel();
         btnProses = new javax.swing.JButton();
@@ -128,25 +130,48 @@ public class LapTrial extends javax.swing.JDialog {
         });
         jToolBar1.add(btnFilter);
 
-        lblKategori.setText("Produk : ");
-        jToolBar1.add(lblKategori);
+        lblProduk.setText("Produk : ");
+        jToolBar1.add(lblProduk);
 
-        txtProduk.setMaximumSize(new java.awt.Dimension(150, 29));
-        txtProduk.setMinimumSize(new java.awt.Dimension(150, 29));
-        txtProduk.setPreferredSize(new java.awt.Dimension(150, 29));
+        txtProduk.setMaximumSize(new java.awt.Dimension(120, 29));
+        txtProduk.setMinimumSize(new java.awt.Dimension(120, 29));
+        txtProduk.setPreferredSize(new java.awt.Dimension(120, 29));
+        txtProduk.addCaretListener(new javax.swing.event.CaretListener() {
+            public void caretUpdate(javax.swing.event.CaretEvent evt) {
+                txtProdukCaretUpdate(evt);
+            }
+        });
         jToolBar1.add(txtProduk);
 
-        lblKepemilikan.setText(" Mesin : ");
-        jToolBar1.add(lblKepemilikan);
+        lblProses.setText(" Proses : ");
+        jToolBar1.add(lblProses);
+
+        txtProses.setMaximumSize(new java.awt.Dimension(100, 29));
+        txtProses.setMinimumSize(new java.awt.Dimension(100, 29));
+        txtProses.setPreferredSize(new java.awt.Dimension(100, 29));
+        txtProses.addCaretListener(new javax.swing.event.CaretListener() {
+            public void caretUpdate(javax.swing.event.CaretEvent evt) {
+                txtProsesCaretUpdate(evt);
+            }
+        });
+        jToolBar1.add(txtProses);
+
+        lblMesin.setText(" Mesin : ");
+        jToolBar1.add(lblMesin);
 
         txtMesin.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         txtMesin.setToolTipText("");
         txtMesin.setMaximumSize(new java.awt.Dimension(90, 29));
         txtMesin.setMinimumSize(new java.awt.Dimension(90, 29));
         txtMesin.setPreferredSize(new java.awt.Dimension(90, 29));
-        txtMesin.addItemListener(new java.awt.event.ItemListener() {
-            public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                txtMesinItemStateChanged(evt);
+        txtMesin.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                txtMesinMouseReleased(evt);
+            }
+        });
+        txtMesin.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtMesinKeyReleased(evt);
             }
         });
         jToolBar1.add(txtMesin);
@@ -232,11 +257,11 @@ public class LapTrial extends javax.swing.JDialog {
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1043, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1050, Short.MAX_VALUE)
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 600, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 536, Short.MAX_VALUE)
         );
 
         getContentPane().add(jPanel3, java.awt.BorderLayout.CENTER);
@@ -251,29 +276,36 @@ public class LapTrial extends javax.swing.JDialog {
         } else {
             btnFilter.setText(">>");
             txtProduk.setText("");
+            txtProses.setText("");
             txtMesin.setSelectedIndex(0);
+            refreshDataTrial();
             hideFilter();
         }
     }//GEN-LAST:event_btnFilterActionPerformed
     private void setFirstDayInMonth() {
         LocalDate todaydate = LocalDate.now();
-        System.out.println("Months first date in yyyy-mm-dd: " + todaydate.withDayOfMonth(1));
         txtTanggalAwal.setDate(Date.valueOf(todaydate.withDayOfMonth(1).toString()));
 
     }
 
     private void hideFilter() {
-        lblKategori.setVisible(false);
+        lblProduk.setVisible(false);
         txtProduk.setVisible(false);
-        lblKepemilikan.setVisible(false);
+        lblProses.setVisible(false);
+        txtProses.setVisible(false);
+        lblMesin.setVisible(false);
         txtMesin.setVisible(false);
+        btnProses.setVisible(true);
     }
 
     private void showFilter() {
-        lblKategori.setVisible(true);
+        lblProduk.setVisible(true);
         txtProduk.setVisible(true);
-        lblKepemilikan.setVisible(true);
+        lblProses.setVisible(true);
+        txtProses.setVisible(true);
+        lblMesin.setVisible(true);
         txtMesin.setVisible(true);
+        btnProses.setVisible(false);
     }
 
     public void refreshDataTables() {
@@ -305,25 +337,17 @@ public class LapTrial extends javax.swing.JDialog {
             Logger.getLogger(LapTrial.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    private void txtMesinItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_txtMesinItemStateChanged
-        //        refreshDataTablesWithFilter();
-    }//GEN-LAST:event_txtMesinItemStateChanged
-
     private void btnProsesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProsesActionPerformed
-        String valueTglAwal = ValueFormatter.getDateSQL(txtTanggalAwal.getDate());
-        String valueTglAkhir = ValueFormatter.getDateSQL(txtTanggalAkhir.getDate());
-        refreshDataPeminjaman(Date.valueOf(valueTglAwal), Date.valueOf(valueTglAkhir));
+        refreshDataTrial();
     }//GEN-LAST:event_btnProsesActionPerformed
-    private void refreshDataPeminjaman(Date tglAwal, Date tglAkhir) {
+    private void refreshDataTrial() {
         try {
-            String produk = txtProduk.getText();
-            String mesin = txtMesin.getSelectedItem().toString();
-
+         String valueTglAwal = ValueFormatter.getDateSQL(txtTanggalAwal.getDate());
+         String valueTglAkhir = ValueFormatter.getDateSQL(txtTanggalAkhir.getDate());
             tableController.clearData();
-//            daftarPeminjamanDetail = repoPeminjaman.findPeminjamanByTglBetween(tglAwal, tglAkhir);
-            daftarTrial = repoTrial.findTrialByProdukBymesin(tglAwal, tglAkhir, produk, mesin);
+            daftarTrial = repoTrial.findTrialByProdukBymesin(Date.valueOf(valueTglAwal),Date.valueOf(valueTglAkhir) , txtProduk.getText(), txtProses.getText(), txtMesin.getSelectedItem().toString());
             if (daftarTrial.isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Tidak ada transaksi !", getTitle(), JOptionPane.INFORMATION_MESSAGE);
+//                JOptionPane.showMessageDialog(this, "Tidak ada transaksi !", getTitle(), JOptionPane.INFORMATION_MESSAGE);
             }
             btnCetak.setEnabled(!daftarTrial.isEmpty());
             for (Trial t : daftarTrial) {
@@ -334,7 +358,7 @@ public class LapTrial extends javax.swing.JDialog {
             tableController.setContentTableAlignment(Arrays.asList(0, 1, 3, 4, 5, 6, 7, 8));
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(this, "Tidak dapat menampilkan data Trial", getTitle(), JOptionPane.ERROR_MESSAGE);
-            Logger.getLogger(LapTrial.class.getName()).log(Level.SEVERE, null, ex);
+//            Logger.getLogger(LapTrial.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     private void btnCetakActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCetakActionPerformed
@@ -362,6 +386,21 @@ public class LapTrial extends javax.swing.JDialog {
         this.dispose();
     }//GEN-LAST:event_btnCetakActionPerformed
 
+    private void txtProdukCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_txtProdukCaretUpdate
+        refreshDataTrial();
+    }//GEN-LAST:event_txtProdukCaretUpdate
+
+    private void txtProsesCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_txtProsesCaretUpdate
+        refreshDataTrial();
+    }//GEN-LAST:event_txtProsesCaretUpdate
+
+    private void txtMesinKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtMesinKeyReleased
+        refreshDataTrial();
+    }//GEN-LAST:event_txtMesinKeyReleased
+
+    private void txtMesinMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtMesinMouseReleased
+    }//GEN-LAST:event_txtMesinMouseReleased
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCetak;
@@ -375,11 +414,13 @@ public class LapTrial extends javax.swing.JDialog {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JToolBar.Separator jSeparator1;
     private javax.swing.JToolBar jToolBar1;
-    private javax.swing.JLabel lblKategori;
-    private javax.swing.JLabel lblKepemilikan;
+    private javax.swing.JLabel lblMesin;
+    private javax.swing.JLabel lblProduk;
+    private javax.swing.JLabel lblProses;
     private javax.swing.JTable tableView;
     private javax.swing.JComboBox<String> txtMesin;
     private javax.swing.JTextField txtProduk;
+    private javax.swing.JTextField txtProses;
     private com.toedter.calendar.JDateChooser txtTanggalAkhir;
     private com.toedter.calendar.JDateChooser txtTanggalAwal;
     // End of variables declaration//GEN-END:variables

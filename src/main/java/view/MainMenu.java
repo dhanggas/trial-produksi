@@ -685,7 +685,6 @@ public class MainMenu extends javax.swing.JFrame {
             trial.setMesin(mesin);
             trial.setKepala(daftarKepala.get(txtKepala.getSelectedIndex()));
             trial.setOperator(daftarOperator.get(txtOperator.getSelectedIndex()));
-            System.out.println(m);
             trial.setMulai(Time.valueOf(m.toString()));
             trial.setSelesai(Time.valueOf(s));
 
@@ -703,8 +702,9 @@ public class MainMenu extends javax.swing.JFrame {
         tableView.scrollRectToVisible(new Rectangle(tableView.getCellRect(tableView.getRowCount() - 1, 0, true)));
     }
     private void btnFilterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFilterActionPerformed
-        txtFilter.setEnabled(true);
-        btnPilih.setEnabled(true);
+        refreshDataTables();
+//        txtFilter.setEnabled(true);
+//        btnPilih.setEnabled(true);
     }//GEN-LAST:event_btnFilterActionPerformed
 
     private void btnPilihDiesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPilihDiesActionPerformed

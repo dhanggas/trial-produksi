@@ -27,7 +27,7 @@ public interface RepoTrial extends BaseRepository<Trial, String> {
 
     public List<Trial> findFilterAlll(String text, String toString, String toString0, String text0, String toString1, String toString2, String toString3, String toString4) throws SQLException;
     
-    public List<Trial> findTrialByProdukBymesin(Date awal, Date akhir, String produk, String mesin) throws SQLException;
+    public List<Trial> findTrialByProdukBymesin(Date awal, Date akhir, String produk,String proses, String mesin) throws SQLException;
 
 
 }

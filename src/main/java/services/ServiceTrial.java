@@ -169,10 +169,11 @@ public class ServiceTrial implements RepoTrial{
     }
 
     @Override
-    public List<Trial> findTrialByProdukBymesin(Date awal, Date akhir, String produk, String mesin) throws SQLException {
+    public List<Trial> findTrialByProdukBymesin(Date awal, Date akhir, String produk,String proses, String mesin) throws SQLException {
                 String sql = "SELECT * from v_trial \n"
                 + "WHERE  tanggal between ? AND ? \n"
                 + "AND nama_dies like CONCAT('%', ?, '%') \n"
+                + "AND proses_dies like CONCAT('%', ?, '%') \n"
                 + "AND nama_mesin LIKE ? order by id_trial asc";
         List<Trial> list = new ArrayList<>();
 
@@ -181,7 +182,8 @@ public class ServiceTrial implements RepoTrial{
         ps.setDate(1, awal);
         ps.setDate(2, akhir);
         ps.setString(3, produk);
-        ps.setString(4, mesin);
+        ps.setString(4, proses);
+        ps.setString(5, mesin);
         ResultSet rs = ps.executeQuery();
         while (rs.next()) {
             Trial t = new Trial();
