@@ -29,5 +29,5 @@ public interface RepoTrial extends BaseRepository<Trial, String> {
     
     public List<Trial> findTrialByProdukBymesin(Date awal, Date akhir, String produk,String proses, String mesin) throws SQLException;
 
-
+    public Integer countTrials() throws SQLException;
 }

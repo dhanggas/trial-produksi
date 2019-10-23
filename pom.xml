@@ -79,13 +79,13 @@
                     </archive>
                 </configuration>    
                 <executions>
-<!--                    <execution>
+                    <execution>
                         <id>make-assembly</id>
                         <phase>package</phase>
                         <goals>                         
                             <goal>single</goal>
                         </goals>
-                    </execution>-->
+                    </execution>
                 </executions>            
             </plugin>
         </plugins>

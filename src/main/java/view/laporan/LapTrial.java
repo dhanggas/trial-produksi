@@ -84,6 +84,7 @@ public class LapTrial extends javax.swing.JDialog {
         jLabel3 = new javax.swing.JLabel();
         btnProses = new javax.swing.JButton();
         btnCetak = new javax.swing.JButton();
+        lblTotal = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tableView = new javax.swing.JTable();
@@ -208,6 +209,9 @@ public class LapTrial extends javax.swing.JDialog {
         });
         jToolBar1.add(btnCetak);
 
+        lblTotal.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jToolBar1.add(lblTotal);
+
         jPanel1.add(jToolBar1, java.awt.BorderLayout.CENTER);
 
         getContentPane().add(jPanel1, java.awt.BorderLayout.PAGE_START);
@@ -318,6 +322,7 @@ public class LapTrial extends javax.swing.JDialog {
                 tableController.getModel().addRow(row);
             }
             tableController.setContentTableAlignment(Arrays.asList(0, 1, 3, 4, 5, 6, 7, 8));
+            lblTotal.setText(repoTrial.countTrials().toString());
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(this, "Tidak dapat mendapatkan data trial", getTitle(), JOptionPane.ERROR_MESSAGE);
             Logger.getLogger(MainMenu.class.getName()).log(Level.SEVERE, null, ex);
@@ -346,9 +351,9 @@ public class LapTrial extends javax.swing.JDialog {
          String valueTglAkhir = ValueFormatter.getDateSQL(txtTanggalAkhir.getDate());
             tableController.clearData();
             daftarTrial = repoTrial.findTrialByProdukBymesin(Date.valueOf(valueTglAwal),Date.valueOf(valueTglAkhir) , txtProduk.getText(), txtProses.getText(), txtMesin.getSelectedItem().toString());
-            if (daftarTrial.isEmpty()) {
+//            if (daftarTrial.isEmpty()) {
 //                JOptionPane.showMessageDialog(this, "Tidak ada transaksi !", getTitle(), JOptionPane.INFORMATION_MESSAGE);
-            }
+//            }
             btnCetak.setEnabled(!daftarTrial.isEmpty());
             for (Trial t : daftarTrial) {
                 Object[] row = {t.getId_trial(), ValueFormatter.getLocalDateShort(t.getTanggal().toLocalDate()), t.getDies().getNama(), t.getDies().getProses(), t.getMesin().getNama(),
@@ -356,9 +361,10 @@ public class LapTrial extends javax.swing.JDialog {
                 tableController.getModel().addRow(row);
             }
             tableController.setContentTableAlignment(Arrays.asList(0, 1, 3, 4, 5, 6, 7, 8));
+            lblTotal.setText("  "+daftarTrial.size());
         } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(this, "Tidak dapat menampilkan data Trial", getTitle(), JOptionPane.ERROR_MESSAGE);
-//            Logger.getLogger(LapTrial.class.getName()).log(Level.SEVERE, null, ex);
+//            JOptionPane.showMessageDialog(this, "Tidak dapat menampilkan data Trial", getTitle(), JOptionPane.ERROR_MESSAGE);
+            Logger.getLogger(LapTrial.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     private void btnCetakActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCetakActionPerformed
@@ -417,6 +423,7 @@ public class LapTrial extends javax.swing.JDialog {
     private javax.swing.JLabel lblMesin;
     private javax.swing.JLabel lblProduk;
     private javax.swing.JLabel lblProses;
+    private javax.swing.JLabel lblTotal;
     private javax.swing.JTable tableView;
     private javax.swing.JComboBox<String> txtMesin;
     private javax.swing.JTextField txtProduk;

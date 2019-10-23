@@ -26,6 +26,8 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
+import javax.swing.text.BadLocationException;
 import repository.RepoKepala;
 import repository.RepoOperator;
 import repository.RepoTrial;
@@ -50,6 +52,8 @@ public class MainMenu extends javax.swing.JFrame {
     private Mesin mesin;
     private Trial trial;
     private Dies dies;
+    private Operator operator;
+    private Kepala kepala;
     private int no = 0;
     LocalDate date;
 
@@ -71,7 +75,10 @@ public class MainMenu extends javax.swing.JFrame {
         this.mesin = new Mesin();
         this.trial = new Trial();
         this.dies = new Dies();
-        
+        this.mesin = new Mesin();
+        this.kepala = new Kepala();
+        this.operator = new Operator();
+
         this.fieldLimit = new FieldLimit();
         ambilNoTrialTertinggi();
         refreshDataTables();
@@ -92,7 +99,8 @@ public class MainMenu extends javax.swing.JFrame {
             Logger.getLogger(MainMenu.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    private void setDateNowMinOne(){
+
+    private void setDateNowMinOne() {
         date = LocalDate.now().minusDays(1);
         this.txtTanggal.setDate(Date.valueOf(date.toString()));
     }
@@ -132,6 +140,8 @@ public class MainMenu extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPopupMenu1 = new javax.swing.JPopupMenu();
+        pmnuUbah = new javax.swing.JMenuItem();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -174,9 +184,16 @@ public class MainMenu extends javax.swing.JFrame {
         mnuLaporan = new javax.swing.JMenu();
         mniLapTrial = new javax.swing.JMenuItem();
         jSeparator5 = new javax.swing.JPopupMenu.Separator();
-        mniAset = new javax.swing.JMenuItem();
         jMenu1 = new javax.swing.JMenu();
         mniTentangAplikasi = new javax.swing.JMenuItem();
+
+        pmnuUbah.setText("Ubah");
+        pmnuUbah.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                pmnuUbahActionPerformed(evt);
+            }
+        });
+        jPopupMenu1.add(pmnuUbah);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(1024, 600));
@@ -432,7 +449,7 @@ public class MainMenu extends javax.swing.JFrame {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel8, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 47, Short.MAX_VALUE)
+                            .addComponent(jLabel8, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -539,7 +556,7 @@ public class MainMenu extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 105, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(btnPilih, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(txtFilter, javax.swing.GroupLayout.DEFAULT_SIZE, 28, Short.MAX_VALUE))
+                    .addComponent(txtFilter))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -553,21 +570,26 @@ public class MainMenu extends javax.swing.JFrame {
 
         tableView.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null}
+                {null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "No Trial", "Tanggal", "Produk", "Proses", "Masin", "Ka. Shiftl", "Operator", "Mulai", "Selesai"
+                "No Trial", "Tanggal", "id dies", "Produk", "Proses", "id mesin", "Mesin", "id kepala", "Ka. Shiftl", "id operator", "Operator", "Mulai", "Selesai"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false, false
+                false, false, false, false, false, false, false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
+            }
+        });
+        tableView.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                tableViewMouseReleased(evt);
             }
         });
         jScrollPane1.setViewportView(tableView);
@@ -576,18 +598,30 @@ public class MainMenu extends javax.swing.JFrame {
             tableView.getColumnModel().getColumn(0).setMaxWidth(70);
             tableView.getColumnModel().getColumn(1).setPreferredWidth(70);
             tableView.getColumnModel().getColumn(1).setMaxWidth(70);
-            tableView.getColumnModel().getColumn(3).setPreferredWidth(120);
-            tableView.getColumnModel().getColumn(3).setMaxWidth(120);
-            tableView.getColumnModel().getColumn(4).setPreferredWidth(50);
-            tableView.getColumnModel().getColumn(4).setMaxWidth(50);
-            tableView.getColumnModel().getColumn(5).setPreferredWidth(120);
-            tableView.getColumnModel().getColumn(5).setMaxWidth(120);
-            tableView.getColumnModel().getColumn(6).setPreferredWidth(120);
-            tableView.getColumnModel().getColumn(6).setMaxWidth(120);
-            tableView.getColumnModel().getColumn(7).setPreferredWidth(70);
-            tableView.getColumnModel().getColumn(7).setMaxWidth(70);
-            tableView.getColumnModel().getColumn(8).setPreferredWidth(70);
-            tableView.getColumnModel().getColumn(8).setMaxWidth(70);
+            tableView.getColumnModel().getColumn(2).setMinWidth(0);
+            tableView.getColumnModel().getColumn(2).setPreferredWidth(0);
+            tableView.getColumnModel().getColumn(2).setMaxWidth(0);
+            tableView.getColumnModel().getColumn(4).setPreferredWidth(120);
+            tableView.getColumnModel().getColumn(4).setMaxWidth(120);
+            tableView.getColumnModel().getColumn(5).setMinWidth(0);
+            tableView.getColumnModel().getColumn(5).setPreferredWidth(0);
+            tableView.getColumnModel().getColumn(5).setMaxWidth(0);
+            tableView.getColumnModel().getColumn(6).setPreferredWidth(50);
+            tableView.getColumnModel().getColumn(6).setMaxWidth(50);
+            tableView.getColumnModel().getColumn(7).setMinWidth(0);
+            tableView.getColumnModel().getColumn(7).setPreferredWidth(0);
+            tableView.getColumnModel().getColumn(7).setMaxWidth(0);
+            tableView.getColumnModel().getColumn(8).setPreferredWidth(120);
+            tableView.getColumnModel().getColumn(8).setMaxWidth(120);
+            tableView.getColumnModel().getColumn(9).setMinWidth(0);
+            tableView.getColumnModel().getColumn(9).setPreferredWidth(0);
+            tableView.getColumnModel().getColumn(9).setMaxWidth(0);
+            tableView.getColumnModel().getColumn(10).setPreferredWidth(120);
+            tableView.getColumnModel().getColumn(10).setMaxWidth(120);
+            tableView.getColumnModel().getColumn(11).setPreferredWidth(70);
+            tableView.getColumnModel().getColumn(11).setMaxWidth(70);
+            tableView.getColumnModel().getColumn(12).setPreferredWidth(70);
+            tableView.getColumnModel().getColumn(12).setMaxWidth(70);
         }
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -617,22 +651,9 @@ public class MainMenu extends javax.swing.JFrame {
         mnuLaporan.add(mniLapTrial);
         mnuLaporan.add(jSeparator5);
 
-        mniAset.setText("Aset");
-        mniAset.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                mniAsetActionPerformed(evt);
-            }
-        });
-        mnuLaporan.add(mniAset);
-
         jMenuBar1.add(mnuLaporan);
 
         jMenu1.setText("Tentang");
-        jMenu1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenu1ActionPerformed(evt);
-            }
-        });
 
         mniTentangAplikasi.setText("Tentang Aplikasi");
         mniTentangAplikasi.addActionListener(new java.awt.event.ActionListener() {
@@ -656,46 +677,91 @@ public class MainMenu extends javax.swing.JFrame {
     }
 
     private void mniTentangAplikasiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniTentangAplikasiActionPerformed
+        try {
+            TentangAplikasi view = new TentangAplikasi(this , true);
+            view.setTitle("Laporan trial Produksi");
+            view.setResizable(false);
+            view.setLocationByPlatform(true);
+            view.setVisible(true);
+        } catch (Exception ex) {
+            Logger.getLogger(MainMenu.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_mniTentangAplikasiActionPerformed
-
-    private void jMenu1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenu1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jMenu1ActionPerformed
 
     private void btnResetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnResetActionPerformed
         clearFields();
         refreshDataTables();
         ambilNoTrialTertinggi();
         setDateNowMinOne();
+        txtNoTrial.setEditable(true);
+        btnNoTrialMin.setVisible(true);
+        btnAutoNoTrial.setVisible(true);
+        btnNoTrialPlus.setVisible(true);
+        btnSimpan.setText("Simpan");
     }//GEN-LAST:event_btnResetActionPerformed
 
     private void btnSimpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSimpanActionPerformed
-        try {
-            String depanMulai = txtMulai.getText(0, 2);
-            String belakangMulai = txtMulai.getText(2, 2);
-            StringBuilder m = new StringBuilder().append(depanMulai).append(":").append(belakangMulai).append(":00");
+        if (btnSimpan.getText().equals("Simpan")) {
+            try {
+                String depanMulai = txtMulai.getText(0, 2);
+                String belakangMulai = txtMulai.getText(2, 2);
+                StringBuilder m = new StringBuilder().append(depanMulai).append(":").append(belakangMulai).append(":00");
 
-            String depanSelesai = txtSelesai.getText(0, 2);
-            String belakangSelesai = txtSelesai.getText(2, 2);
-            String s = depanSelesai + ":" + belakangSelesai + ":00";
+                String depanSelesai = txtSelesai.getText(0, 2);
+                String belakangSelesai = txtSelesai.getText(2, 2);
+                String s = depanSelesai + ":" + belakangSelesai + ":00";
 
-            trial.setId_trial(Integer.valueOf(txtNoTrial.getText()));
-            trial.setTanggal(Date.valueOf(ValueFormatter.getDateSQL(txtTanggal.getDate())));
-            trial.setDies(dies);
-            trial.setMesin(mesin);
-            trial.setKepala(daftarKepala.get(txtKepala.getSelectedIndex()));
-            trial.setOperator(daftarOperator.get(txtOperator.getSelectedIndex()));
-            trial.setMulai(Time.valueOf(m.toString()));
-            trial.setSelesai(Time.valueOf(s));
+                trial.setId_trial(Integer.valueOf(txtNoTrial.getText()));
+                trial.setTanggal(Date.valueOf(ValueFormatter.getDateSQL(txtTanggal.getDate())));
+                trial.setDies(dies);
+                trial.setMesin(mesin);
+                trial.setKepala(daftarKepala.get(txtKepala.getSelectedIndex()));
+                trial.setOperator(daftarOperator.get(txtOperator.getSelectedIndex()));
+                trial.setMulai(Time.valueOf(m.toString()));
+                trial.setSelesai(Time.valueOf(s));
 
-            repoTrial.save(trial);
-            refreshDataTables();
-            clearFields();
-            selectLastRow();
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, e, getTitle(), JOptionPane.ERROR_MESSAGE);
-            Logger.getLogger(MainMenu.class.getName()).log(Level.SEVERE, null, e);
+                repoTrial.save(trial);
+                refreshDataTables();
+                clearFields();
+                selectLastRow();
+            } catch (BadLocationException ex) {
+                JOptionPane.showMessageDialog(this, ex, getTitle(), JOptionPane.ERROR_MESSAGE);
+                Logger.getLogger(MainMenu.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (SQLException ex) {
+                JOptionPane.showMessageDialog(this, ex, getTitle(), JOptionPane.ERROR_MESSAGE);
+                Logger.getLogger(MainMenu.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } else {
+            try {
+                String depanMulai = txtMulai.getText(0, 2);
+                String belakangMulai = txtMulai.getText(2, 2);
+                StringBuilder m = new StringBuilder().append(depanMulai).append(":").append(belakangMulai).append(":00");
+
+                String depanSelesai = txtSelesai.getText(0, 2);
+                String belakangSelesai = txtSelesai.getText(2, 2);
+                String s = depanSelesai + ":" + belakangSelesai + ":00";
+
+                trial.setId_trial(Integer.valueOf(txtNoTrial.getText()));
+                trial.setTanggal(Date.valueOf(ValueFormatter.getDateSQL(txtTanggal.getDate())));
+                trial.setDies(dies);
+                trial.setMesin(mesin);
+                trial.setKepala(daftarKepala.get(txtKepala.getSelectedIndex()));
+                trial.setOperator(daftarOperator.get(txtOperator.getSelectedIndex()));
+                trial.setMulai(Time.valueOf(m.toString()));
+                trial.setSelesai(Time.valueOf(s));
+                repoTrial.update(trial);
+                btnSimpan.setText("Simpan");
+                refreshDataTables();
+                btnResetActionPerformed(evt);
+            } catch (SQLException ex) {
+                JOptionPane.showMessageDialog(this, ex, getTitle(), JOptionPane.ERROR_MESSAGE);
+                Logger.getLogger(MainMenu.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (BadLocationException ex) {
+                JOptionPane.showMessageDialog(this, ex, getTitle(), JOptionPane.ERROR_MESSAGE);
+                Logger.getLogger(MainMenu.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
+
     }//GEN-LAST:event_btnSimpanActionPerformed
     public void selectLastRow() {
         tableView.setRowSelectionInterval(tableView.getRowCount() - 1, tableView.getRowCount() - 1);
@@ -765,7 +831,7 @@ public class MainMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_txtSelesaiKeyPressed
 
     private void btnSimpanKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btnSimpanKeyPressed
-        if (evt.getKeyCode()== KeyEvent.VK_ENTER) {
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             btnSimpanActionPerformed(null);
         }
     }//GEN-LAST:event_btnSimpanKeyPressed
@@ -780,11 +846,11 @@ public class MainMenu extends javax.swing.JFrame {
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             btnPilihMesinActionPerformed(null);
         }
-        
+
     }//GEN-LAST:event_btnPilihMesinKeyPressed
 
     private void btnResetKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btnResetKeyPressed
-        if (evt.getKeyCode()==KeyEvent.VK_ENTER) {
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             btnResetActionPerformed(null);
         }
     }//GEN-LAST:event_btnResetKeyPressed
@@ -797,13 +863,13 @@ public class MainMenu extends javax.swing.JFrame {
     private void btnAutoNoTrialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAutoNoTrialActionPerformed
         ambilNoTrialTertinggi();
     }//GEN-LAST:event_btnAutoNoTrialActionPerformed
-     
-    private void ambilNoTrialTertinggi(){
+
+    private void ambilNoTrialTertinggi() {
         try {
-            List<Trial> list= repoTrial.findMaxValue();
+            List<Trial> list = repoTrial.findMaxValue();
             if (!list.isEmpty()) {
                 for (Trial trial : list) {
-                    no = trial.getId_trial()+1;
+                    no = trial.getId_trial() + 1;
                 }
                 txtNoTrial.setText(String.valueOf(no));
             }
@@ -823,35 +889,80 @@ public class MainMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_btnTanggalPlusActionPerformed
 
     private void btnNoTrialMinActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNoTrialMinActionPerformed
-        no= no-1;
+        no = no - 1;
         txtNoTrial.setText(String.valueOf(no));
     }//GEN-LAST:event_btnNoTrialMinActionPerformed
 
     private void btnNoTrialPlusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNoTrialPlusActionPerformed
-        no= no+1;
+        no = no + 1;
         txtNoTrial.setText(String.valueOf(no));
     }//GEN-LAST:event_btnNoTrialPlusActionPerformed
 
-    private void mniAsetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniAsetActionPerformed
-        //        try {
-            //            DaftarAsetView view = new DaftarAsetView(this, p);
-            //            setInnerLayout(view);
-            //        } catch (Exception e) {
-            //            Logger.getLogger(MainMenuView.class.getName()).log(Level.SEVERE, null, e);
-            //        }
-    }//GEN-LAST:event_mniAsetActionPerformed
-
     private void mniLapTrialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniLapTrialActionPerformed
-       try {
-            LapTrial view = new LapTrial(this , true);
+        try {
+            LapTrial view = new LapTrial(this, true);
             view.setTitle("Laporan trial Produksi");
-//            view.setResizable(true);
+            view.setResizable(true);
             view.setLocationByPlatform(true);
             view.setVisible(true);
         } catch (Exception ex) {
             Logger.getLogger(MainMenu.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_mniLapTrialActionPerformed
+
+    private void pmnuUbahActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pmnuUbahActionPerformed
+        setFieldsUntukUbah();
+    }//GEN-LAST:event_pmnuUbahActionPerformed
+
+    private void tableViewMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableViewMouseReleased
+        if (evt.isPopupTrigger()) {
+            JTable source = (JTable) evt.getSource();
+            int row = source.rowAtPoint(evt.getPoint());
+            int column = source.columnAtPoint(evt.getPoint());
+            if (!source.isRowSelected(row)) {
+                source.changeSelection(row, column, false, false);
+            }
+            jPopupMenu1.show(evt.getComponent(), evt.getX(), evt.getY());
+        }
+    }//GEN-LAST:event_tableViewMouseReleased
+    private void setFieldsUntukUbah() {
+        if (tableController.isSelected()) {
+            trial = daftarTrial.get(tableController.getRowSelected());
+            txtNoTrial.setText(trial.getId_trial().toString());
+            txtNoTrial.setEditable(false);
+            btnNoTrialMin.setVisible(false);
+            btnAutoNoTrial.setVisible(false);
+            btnNoTrialPlus.setVisible(false);
+            dies = trial.getDies();
+            mesin = trial.getMesin();
+            kepala = trial.getKepala();
+            operator = trial.getOperator();
+
+            txtTanggal.setDate(trial.getTanggal());
+            txtNamaDies.setText(trial.getDies().getNama());
+            txtProses.setText(trial.getDies().getProses());
+            txtCustomer.setText(trial.getDies().getCustomer());
+            txtNamaMesin.setText(trial.getMesin().getNama());
+            txtKepala.setSelectedItem(trial.getKepala().getNama());
+            txtOperator.setSelectedItem(trial.getOperator().getNama());
+            txtMulai.setText(trial.getMulai().toString());
+            String a, b, c, d, e, f, g, h;
+            a = trial.getMulai().toString();
+            b = a.substring(0, 2);
+            c = a.substring(3, 5);
+            d = b + c;
+            txtMulai.setText(d);
+            e = trial.getSelesai().toString();
+            f = e.substring(0, 2);
+            g = e.substring(3, 5);
+            h = f + g;
+            txtSelesai.setText(h);
+            btnSimpan.setText("Update");
+
+        } else {
+            JOptionPane.showMessageDialog(this, "Data Aset belum dipilih!", getTitle(), JOptionPane.WARNING_MESSAGE);
+        }
+    }
 
     private void textFieldLimit() {
         txtMulai.setDocument(new FieldLimit(4));
@@ -863,11 +974,14 @@ public class MainMenu extends javax.swing.JFrame {
             tableController.clearData();
             this.daftarTrial = repoTrial.findAll();
             for (Trial trial : daftarTrial) {
-                Object[] row = {trial.getId_trial(), ValueFormatter.getLocalDateShort(trial.getTanggal().toLocalDate()), trial.getDies().getNama(), trial.getDies().getProses(),
-                    trial.getMesin().getNama(), trial.getKepala().getNama(), trial.getOperator().getNama(), trial.getMulai(), trial.getSelesai()};
+                Object[] row = {trial.getId_trial(), ValueFormatter.getLocalDateShort(trial.getTanggal().toLocalDate()), trial.getDies().getId_dies(), trial.getDies().getNama(), trial.getDies().getProses(),
+                    trial.getMesin().getId_mesin(), trial.getMesin().getNama(),
+                    trial.getKepala().getId_kepala(), trial.getKepala().getNama(),
+                    trial.getOperator().getId_operator(), trial.getOperator().getNama(),
+                    trial.getMulai(), trial.getSelesai()};
                 tableController.getModel().addRow(row);
             }
-            tableController.setContentTableAlignment(Arrays.asList(0, 1, 3, 4, 5, 6, 7, 8));
+            tableController.setContentTableAlignment(Arrays.asList(0, 1, 2, 4, 5, 6, 7, 8, 9, 10, 11, 12));
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(this, "Tidak dapat mendapatkan data trial", getTitle(), JOptionPane.ERROR_MESSAGE);
             Logger.getLogger(MainMenu.class.getName()).log(Level.SEVERE, null, ex);
@@ -900,13 +1014,14 @@ public class MainMenu extends javax.swing.JFrame {
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JPopupMenu jPopupMenu1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JPopupMenu.Separator jSeparator5;
     private javax.swing.JToolBar jToolBar1;
-    private javax.swing.JMenuItem mniAset;
     private javax.swing.JMenuItem mniLapTrial;
     private javax.swing.JMenuItem mniTentangAplikasi;
     private javax.swing.JMenu mnuLaporan;
+    private javax.swing.JMenuItem pmnuUbah;
     private javax.swing.JTable tableView;
     private javax.swing.JTextField txtCustomer;
     private javax.swing.JTextField txtFilter;

@@ -80,8 +80,25 @@ public class ServiceTrial implements RepoTrial{
     }
 
     @Override
-    public Trial update(Trial value) throws SQLException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Trial update(Trial b) throws SQLException {
+        String sql = "UPDATE tb_trial SET tanggal = ?, id_dies = ?, id_mesin = ?, id_kepala = ?, "
+                + "id_operator = ?, mulai = ?, selesai = ? WHERE id_trial = ?";
+
+        Connection connect = ds.getConnection();
+        PreparedStatement ps = connect.prepareStatement(sql);
+        ps.setDate(1, b.getTanggal());
+        ps.setInt(2, b.getDies().getId_dies());
+        ps.setInt(3, b.getMesin().getId_mesin());
+        ps.setInt(4, b.getKepala().getId_kepala());
+        ps.setInt(5, b.getOperator().getId_operator());
+        ps.setTime(6, b.getMulai());
+        ps.setTime(7, b.getSelesai());
+        ps.setInt(8, b.getId_trial());
+        ps.executeUpdate();
+
+        ps.close();
+        connect.close();
+        return b;
     }
 
     @Override
@@ -222,6 +239,23 @@ public class ServiceTrial implements RepoTrial{
         rs.close();
         connect.close();
         return list;
+    }
+
+    @Override
+    public Integer countTrials() throws SQLException {
+       String sql = "SELECT count(id_trial) as Total from tb_trial";
+        Integer a = null;
+        Connection connect = ds.getConnection();
+        Statement st = connect.createStatement();
+        ResultSet rs = st.executeQuery(sql);
+        while (rs.next()) {
+        a = rs.getInt("total");
+        }
+
+        st.close();
+        rs.close();
+        connect.close();
+        return a; 
     }
     
 }
