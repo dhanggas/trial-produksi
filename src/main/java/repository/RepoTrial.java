@@ -20,7 +20,7 @@ public interface RepoTrial extends BaseRepository<Trial, String> {
     public List<Trial> findByKategoriKode(String kode) throws SQLException;
     
     public List<Trial> findByNama(String nama) throws SQLException;
-
+    
     public List<Trial> findByQtyZeroByName(String nama) throws SQLException;
 
     public List<Trial> findByQtyOneByName(String nama) throws SQLException;

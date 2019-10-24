@@ -106,4 +106,30 @@ public class ServiceMesin implements RepoMesin {
         return list;
     }
 
+    @Override
+    public List<Mesin> findById(Integer id) throws SQLException {
+        List<Mesin> list = new ArrayList<>();
+        String sql = "SELECT * FROM tb_mesin \n"
+                + "WHERE id_mesin = ? ";
+
+        Connection connect = ds.getConnection();
+        PreparedStatement ps = connect.prepareStatement(sql);
+        ps.setInt(1, id);
+
+        ResultSet rs = ps.executeQuery();
+
+        while (rs.next()) {
+            Mesin a = new Mesin();
+            a.setId_mesin(rs.getInt("id_mesin"));
+            a.setNama(rs.getString("nama"));
+
+            list.add(a);
+        }
+
+        ps.close();
+        rs.close();
+        connect.close();
+        return list;
+    }
+
 }

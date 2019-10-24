@@ -17,4 +17,6 @@ import java.util.List;
 public interface RepoMesin extends BaseRepository<Mesin, String>{
     
     public List<Mesin> findByNama(String nama) throws SQLException;
+    
+    public List<Mesin> findById(Integer id) throws SQLException;
 }
